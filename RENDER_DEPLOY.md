@@ -10,7 +10,7 @@ This guide walks you through deploying the **XYZ Dental Clinic Backend** to **Re
 [Patient on Smartphone Anywhere in the World]
        │
        ▼ (Visits GitHub Pages)
-https://hiimesh0.github.io/leadgenapp/demos/aurelia-dental/dist/index.html
+https://hiimesh0.github.io/leadgenapp/demos/him/dist/index.html
        │
        ▼ (Calls Public Cloud API via HTTPS)
 https://xyz-dental-backend.onrender.com/api/public/appointments
@@ -50,7 +50,7 @@ Fill in the following fields:
 | **Name** | `xyz-dental-backend` |
 | **Region** | Singapore (or closest to India) |
 | **Branch** | `main` |
-| **Root Directory** | `demos/aurelia-dental/server` |
+| **Root Directory** | `demos/him/server` |
 | **Runtime** | `Node` |
 | **Build Command** | `npm install` |
 | **Start Command** | `node index.js` |
@@ -93,3 +93,4 @@ const API_BASE = 'https://xyz-dental-backend.onrender.com/api';
 Then rebuild and push to GitHub. From that moment onward:
 - Your laptop does not need to run anything.
 - The website on GitHub Pages will communicate directly with your Render cloud backend 24/7!
+

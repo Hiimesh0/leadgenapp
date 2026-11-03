@@ -53,7 +53,7 @@ export const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onOpenAppoin
           <div className="max-w-3xl mx-auto mb-12 p-4 rounded-xl bg-accent-light/60 border border-accent/40 text-xs text-primary flex items-center gap-3">
             <Sparkles className="w-5 h-5 text-accent shrink-0" />
             <span>
-              <strong>Demonstration Integrity Notice:</strong> As Aurelia Dental Studio is a demonstration showcase practice built to illustrate modern healthcare UX, the reviews below are illustrative sample cases depicting realistic clinical outcomes and patient journeys.
+              <strong>Demonstration Integrity Notice:</strong> As XYZ Dental Clinic is a demonstration showcase practice built to illustrate modern healthcare UX, the reviews below are illustrative sample cases depicting realistic clinical outcomes and patient journeys.
             </span>
           </div>
 

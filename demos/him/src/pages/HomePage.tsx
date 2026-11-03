@@ -104,7 +104,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenAppointmentModal }) =>
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-surface aspect-[4/5]">
                   <img
                     src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=1000&q=80"
-                    alt="Confident patient smile after modern dental care at Aurelia Dental Studio"
+                    alt="Confident patient smile after modern dental care at XYZ Dental Clinic"
                     className="w-full h-full object-cover object-center"
                     loading="eager"
                   />
@@ -202,7 +202,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenAppointmentModal }) =>
               Care Delivered with Clinical Precision & Calm
             </h2>
             <p className="text-text-secondary text-sm sm:text-base">
-              Every procedure at Aurelia Dental Studio is performed using magnifying loupes or operating microscopes to protect healthy tooth structure.
+              Every procedure at XYZ Dental Clinic is performed using magnifying loupes or operating microscopes to protect healthy tooth structure.
             </p>
           </div>
 
@@ -515,7 +515,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenAppointmentModal }) =>
             {/* Embedded Google Map */}
             <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-border shadow-card aspect-[16/10]">
               <iframe
-                title="Aurelia Dental Studio Location Map"
+                title="XYZ Dental Clinic Location Map"
                 src={CLINIC_INFO.googleMapsEmbedUrl}
                 width="100%"
                 height="100%"

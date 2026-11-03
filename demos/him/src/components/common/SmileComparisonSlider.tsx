@@ -67,7 +67,7 @@ export const SmileComparisonSlider: React.FC<SmileComparisonSliderProps> = ({
         {/* "After" Image (Background) */}
         <img
           src={afterImage}
-          alt="Transformed smile after cosmetic veneer treatment at Aurelia Dental"
+          alt="Transformed smile after cosmetic veneer treatment at XYZ Dental Clinic"
           className="absolute inset-0 w-full h-full object-cover object-center"
           loading="lazy"
         />

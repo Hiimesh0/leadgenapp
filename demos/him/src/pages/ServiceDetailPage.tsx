@@ -162,7 +162,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ onOpenAppo
               <div className="p-6 rounded-2xl bg-surface border border-border shadow-sm space-y-4">
                 <h3 className="font-serif-heading text-lg font-bold text-primary flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-accent" />
-                  <span>The Aurelia Quality Mark</span>
+                  <span>The XYZ Quality Mark</span>
                 </h3>
                 <ul className="space-y-2.5 text-xs text-text-secondary">
                   <li className="flex items-start gap-2">

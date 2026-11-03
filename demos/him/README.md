@@ -55,7 +55,7 @@ The server uses a lightweight JSON database located at `server/clinic_db.json` c
 
 ### 1. Install Dependencies
 ```bash
-cd demos/aurelia-dental
+cd demos/him
 pnpm install
 ```
 

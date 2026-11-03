@@ -2,7 +2,7 @@
 ### AI-Powered Web Platforms, Business Automation & Lead Generation for SMBs
 
 **Live GitHub Website:** [https://hiimesh0.github.io/leadgenapp/](https://hiimesh0.github.io/leadgenapp/)  
-**Flagship Demo (Aurelia Dental Studio):** [https://hiimesh0.github.io/leadgenapp/demos/aurelia-dental/dist/index.html](https://hiimesh0.github.io/leadgenapp/demos/aurelia-dental/dist/index.html)  
+**Flagship Demo (XYZ Dental Clinic):** [https://hiimesh0.github.io/leadgenapp/demos/him/dist/index.html](https://hiimesh0.github.io/leadgenapp/demos/him/dist/index.html)  
 
 ---
 
@@ -32,7 +32,7 @@ leadgenapp/
 │   └── script.js                # Navigation drawer, smooth scrolling, form validation
 │
 ├── demos/
-│   └── aurelia-dental/          # Flagship Luxury Healthcare Platform Demo
+│   └── him/                     # Flagship Luxury Healthcare Platform Demo
 │       ├── dist/                # Production-compiled React 19 + TypeScript + Tailwind bundle
 │       ├── src/                 # Full source code, components, and data
 │       ├── WEBSITE_RESEARCH.md  # 20-clinic benchmark research report
@@ -57,7 +57,7 @@ The repository is configured for automated deployment via GitHub Pages:
 - **Homepage:** `https://hiimesh0.github.io/leadgenapp/`
 - **Services:** `https://hiimesh0.github.io/leadgenapp/services.html`
 - **Portfolio & Demos:** `https://hiimesh0.github.io/leadgenapp/portfolio.html`
-- **Dental Clinic Demo:** `https://hiimesh0.github.io/leadgenapp/demos/aurelia-dental/dist/index.html`
+- **Dental Clinic Demo:** `https://hiimesh0.github.io/leadgenapp/demos/him/dist/index.html`
 
 ---
 
@@ -72,7 +72,7 @@ No build tools are required for the main agency website—it runs entirely on se
 2. Open `index.html` directly in your browser.
 3. For the React/TypeScript dental demo:
    ```bash
-   cd demos/aurelia-dental
+   cd demos/him
    pnpm install
    pnpm dev
    ```

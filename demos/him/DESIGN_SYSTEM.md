@@ -1,17 +1,17 @@
 # DESIGN SYSTEM
-## Aurelia Dental Studio — Brand & UI Design System
+## XYZ Dental Clinic (him) — Brand & UI Design System
 **Version:** 1.0 | **Created:** 2026-11-03 | **Status:** Production
 
 ---
 
-> This design system governs every visual and interactive element of the Aurelia Dental Studio website. All UI components must reference this document to maintain consistency.
+> This design system governs every visual and interactive element of the XYZ Dental Clinic website. All UI components must reference this document to maintain consistency.
 
 ---
 
 ## 1. BRAND IDENTITY
 
 ### Clinic Name
-**AURELIA DENTAL STUDIO**
+**XYZ DENTAL CLINIC**
 
 ### Brand Promise
 *"Where expert care meets exceptional comfort — creating confident smiles for Surat's families and professionals."*
@@ -29,7 +29,7 @@
 | Precise | Pixel-perfect alignment; consistent spacing grid |
 
 ### Logo Concept
-SVG wordmark: "AURELIA" in DM Serif Display + a small laurel leaf accent (representing excellence and nature). "DENTAL STUDIO" in Inter, uppercase, tracked widely, in sage green below the main wordmark.
+SVG wordmark: "XYZ DENTAL" in DM Serif Display + a small laurel leaf accent (representing excellence and nature). "CLINIC" in Inter, uppercase, tracked widely, in sage green below the main wordmark.
 
 ---
 

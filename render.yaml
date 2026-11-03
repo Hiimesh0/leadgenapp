@@ -3,7 +3,7 @@ services:
     name: xyz-dental-backend
     runtime: node
     plan: free
-    rootDir: demos/aurelia-dental/server
+    rootDir: demos/him/server
     buildCommand: npm install
     startCommand: node index.js
     envVars:
@@ -19,3 +19,4 @@ services:
         sync: false
       - key: WAHA_SESSION
         value: default
+

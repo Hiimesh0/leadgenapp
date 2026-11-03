@@ -34,7 +34,7 @@ You need **Docker** installed on your host machine to run WAHA.
 
 ### Option A: Using Docker Compose (Recommended)
 
-From `demos/aurelia-dental/`:
+From `demos/him/`:
 
 ```bash
 docker compose -f docker-compose.waha.yml up -d
@@ -56,7 +56,7 @@ Once running:
 
 1. Start WAHA using one of the commands above.
 2. Log into the Doctor Admin Dashboard:
-   - URL: `demos/aurelia-dental/dist/index.html#/doctor/login`
+   - URL: `demos/him/dist/index.html#/doctor/login`
    - Email: `kanthariyahimesh@gmail.com`
    - Password: `DoctorXYZ@2026`
 3. Navigate to **Settings** (`#/doctor/settings`).

@@ -36,7 +36,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenAppointmentModal }) 
               </h2>
 
               <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
-                For decades, dental care in India has suffered from a reputation of clinical rush, harsh sensory overstimulation, and anxiety-provoking unpredictability. At Aurelia Dental Studio in Vesu, Surat, we questioned every detail of that legacy model.
+                For decades, dental care has suffered from a reputation of clinical rush, harsh sensory overstimulation, and anxiety-provoking unpredictability. At XYZ Dental Clinic in Surat, we questioned every detail of that legacy model.
               </p>
 
               <p className="text-text-secondary text-sm sm:text-base leading-relaxed">
@@ -45,7 +45,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenAppointmentModal }) 
 
               <div className="p-5 rounded-2xl bg-surface border border-border shadow-sm space-y-3">
                 <div className="font-serif-heading text-lg font-bold text-primary">
-                  The Aurelia Patient Pledge
+                  The XYZ Patient Pledge
                 </div>
                 <ul className="space-y-2 text-xs sm:text-sm text-text-secondary">
                   <li className="flex items-center gap-2">
@@ -68,7 +68,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onOpenAppointmentModal }) 
               <div className="rounded-2xl overflow-hidden shadow-2xl border-4 border-surface aspect-[4/3]">
                 <img
                   src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80"
-                  alt="Modern, calm dental operatory room at Aurelia Dental Studio"
+                  alt="Modern, calm dental operatory room at XYZ Dental Clinic"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
