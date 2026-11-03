@@ -5,8 +5,6 @@
  * Fictional Demonstration Practice
  */
 
-import { SERVICES } from '../data/clinicData';
-
 export interface ClinicConfig {
   clinicName: string;
   tagline: string;
@@ -37,7 +35,6 @@ export interface ClinicConfig {
     emergency: string;
   };
   demoNotice: string;
-  services: typeof SERVICES;
   socialLinks: {
     whatsapp: string;
     email: string;
@@ -89,8 +86,6 @@ export const CLINIC_CONFIG: ClinicConfig = {
   // Compulsory Demo Disclaimer Notice
   demoNotice: "DEMO WEBSITE — All doctor, clinic, appointment, and service information is fictional and provided for demonstration purposes only.",
   
-  services: SERVICES,
-
   socialLinks: {
     whatsapp: "https://wa.me/919974012606?text=Hello%20XYZ%20Dental%20Clinic%2C%20I%20am%20inquiring%20about%20a%20demo%20dental%20appointment.",
     email: "mailto:kanthariyahimesh@gmail.com",

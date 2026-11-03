@@ -103,7 +103,7 @@ export const App: React.FC = () => {
           </Route>
 
           {/* Fallback Catch-all */}
-          <Route path="*" element={<PublicLayout onOpenAppointmentModal={handleOpenAppointmentModal} />}>
+          <Route element={<PublicLayout onOpenAppointmentModal={handleOpenAppointmentModal} />}>
             <Route path="*" element={<HomePage onOpenAppointmentModal={handleOpenAppointmentModal} />} />
           </Route>
         </Routes>

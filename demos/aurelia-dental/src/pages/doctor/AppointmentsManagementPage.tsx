@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { clinicApi } from '../../services/api';
 import { Appointment, AppointmentHistory, AppointmentStatus } from '../../types';
 import { CLINIC_CONFIG } from '../../config/clinicConfig';
+import { SERVICES } from '../../data/clinicData';
 import {
   Search,
   Filter,
@@ -44,7 +45,7 @@ export const AppointmentsManagementPage: React.FC = () => {
   const [newPatientName, setNewPatientName] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [newServiceId, setNewServiceId] = useState(CLINIC_CONFIG.services[0].id);
+  const [newServiceId, setNewServiceId] = useState(SERVICES[0].id);
   const [newDate, setNewDate] = useState(new Date().toISOString().split('T')[0]);
   const [newTime, setNewTime] = useState('11:00 AM');
   const [newNotes, setNewNotes] = useState('');
@@ -133,7 +134,7 @@ export const AppointmentsManagementPage: React.FC = () => {
     e.preventDefault();
     setSubmittingNew(true);
     try {
-      const service = CLINIC_CONFIG.services.find((s) => s.id === newServiceId);
+      const service = SERVICES.find((s) => s.id === newServiceId);
       await clinicApi.createPublicAppointment({
         patient_name: newPatientName,
         phone: newPhone,
@@ -260,7 +261,7 @@ export const AppointmentsManagementPage: React.FC = () => {
               className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:bg-white focus:ring-2 focus:ring-teal-600"
             >
               <option value="all">All Dental Services</option>
-              {CLINIC_CONFIG.services.map((s) => (
+              {SERVICES.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.name}
                 </option>
@@ -665,7 +666,7 @@ export const AppointmentsManagementPage: React.FC = () => {
                   onChange={(e) => setNewServiceId(e.target.value)}
                   className="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm"
                 >
-                  {CLINIC_CONFIG.services.map((s) => (
+                  {SERVICES.map((s) => (
                     <option key={s.id} value={s.id}>
                       {s.name} ({s.duration})
                     </option>
