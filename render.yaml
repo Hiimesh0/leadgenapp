@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: xyz-dental-backend
+    runtime: node
+    plan: free
+    rootDir: demos/aurelia-dental/server
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: WAHA_ENABLED
+        value: "true"
+      - key: WAHA_BASE_URL
+        sync: false
+      - key: WAHA_API_KEY
+        sync: false
+      - key: WAHA_SESSION
+        value: default
