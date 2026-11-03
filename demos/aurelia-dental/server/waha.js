@@ -42,7 +42,7 @@ export function normalizeIndianPhone(inputPhone) {
 export class WahaService {
   constructor() {
     this.baseUrl = (process.env.WAHA_BASE_URL || 'http://localhost:3008').replace(/\/+$/, '');
-    this.apiKey = process.env.WAHA_API_KEY || '';
+    this.apiKey = process.env.WAHA_API_KEY || '50100d00397b43cdb9f8a61599cd2f94';
     this.session = process.env.WAHA_SESSION || 'default';
     this.enabled = process.env.WAHA_ENABLED !== 'false';
   }
