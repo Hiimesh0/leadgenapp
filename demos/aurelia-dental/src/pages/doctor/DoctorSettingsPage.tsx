@@ -40,7 +40,7 @@ export const DoctorSettingsPage: React.FC = () => {
         label: 'WAHA Service Unavailable',
         connected: false,
         session: 'default',
-        baseUrl: 'http://localhost:3000',
+        baseUrl: 'http://localhost:3008',
         error: 'Unable to reach backend service'
       });
     } finally {
@@ -129,7 +129,7 @@ export const DoctorSettingsPage: React.FC = () => {
           <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">WAHA Server Base URL</span>
             <div className="text-xs font-mono font-semibold text-slate-800 pt-1">
-              {wahaStatus?.baseUrl || 'http://localhost:3000'}
+              {wahaStatus?.baseUrl || 'http://localhost:3008'}
             </div>
             <p className="text-[10px] text-slate-400">Session ID: <code>{wahaStatus?.session || 'default'}</code></p>
           </div>
@@ -164,7 +164,7 @@ export const DoctorSettingsPage: React.FC = () => {
             <span className="text-[10px] text-slate-400">Port: 3000</span>
           </div>
           <pre className="p-2.5 bg-slate-950 rounded-lg text-[11px] font-mono text-emerald-300 overflow-x-auto select-all">
-            docker run -it --rm -p 3000:3000/tcp --name waha devlikeapro/waha
+            docker run -it --rm -p 3008:3000/tcp --name waha devlikeapro/waha
           </pre>
           <p className="text-[11px] text-slate-400">
             Or launch with Docker Compose: <code className="text-slate-300">docker compose -f docker-compose.waha.yml up -d</code>.

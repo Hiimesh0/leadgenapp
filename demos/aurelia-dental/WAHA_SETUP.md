@@ -43,12 +43,12 @@ docker compose -f docker-compose.waha.yml up -d
 ### Option B: Using Docker Run Directly
 
 ```bash
-docker run -it --rm -p 3000:3000/tcp --name waha devlikeapro/waha
+docker run -it --rm -p 3008:3000/tcp --name waha devlikeapro/waha
 ```
 
 Once running:
-- **WAHA API Base URL:** `http://localhost:3000`
-- **WAHA Swagger / Web Dashboard:** `http://localhost:3000/dashboard` (Username: `admin`, Password: `DoctorXYZ@2026`)
+- **WAHA API Base URL:** `http://localhost:3008`
+- **WAHA Swagger / Web Dashboard:** `http://localhost:3008/dashboard` (Username: `admin`, Password: `DoctorXYZ@2026`)
 
 ---
 

@@ -6,7 +6,7 @@ services:
     container_name: waha_dental_api
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3008:3000"
     environment:
       - WAHA_ZIP_LOGS=false
       - WAHA_PRINT_QR=true

@@ -41,10 +41,27 @@ export function normalizeIndianPhone(inputPhone) {
 
 export class WahaService {
   constructor() {
-    this.baseUrl = (process.env.WAHA_BASE_URL || 'http://localhost:3000').replace(/\/+$/, '');
+    this.baseUrl = (process.env.WAHA_BASE_URL || 'http://localhost:3008').replace(/\/+$/, '');
     this.apiKey = process.env.WAHA_API_KEY || '';
     this.session = process.env.WAHA_SESSION || 'default';
-    this.enabled = process.env.WAHA_ENABLED === 'true';
+    this.enabled = process.env.WAHA_ENABLED !== 'false';
+  }
+
+  async resolveBaseUrl() {
+    if (process.env.WAHA_BASE_URL) {
+      return process.env.WAHA_BASE_URL.replace(/\/+$/, '');
+    }
+    // Check 3008 first (preferred to avoid conflict with existing docker containers)
+    for (const testUrl of ['http://localhost:3008', 'http://localhost:3000']) {
+      try {
+        const res = await fetch(`${testUrl}/api/server/version`, { signal: AbortSignal.timeout(800) });
+        if (res.ok) {
+          this.baseUrl = testUrl;
+          return testUrl;
+        }
+      } catch {}
+    }
+    return this.baseUrl;
   }
 
   getHeaders() {
@@ -74,6 +91,8 @@ export class WahaService {
         error: 'WAHA integration is currently disabled in environment variables.'
       };
     }
+
+    await this.resolveBaseUrl();
 
     try {
       // Step 1: Probe health endpoint with 3s timeout
@@ -199,6 +218,7 @@ export class WahaService {
     if (!this.enabled) {
       return { ok: false, error: 'WAHA is not enabled in environment configuration.' };
     }
+    await this.resolveBaseUrl();
 
     try {
       const res = await fetch(`${this.baseUrl}/api/${this.session}/auth/qr`, {
@@ -297,6 +317,8 @@ Our clinic will contact you if any changes are required. This is a demo appointm
       chatId: phoneInfo.chatId,
       text: messageText
     };
+
+    await this.resolveBaseUrl();
 
     console.log(`[WAHA] Dispatching confirmation for ${appointment.appointment_ref} to ${maskedPhone}...`);
 
