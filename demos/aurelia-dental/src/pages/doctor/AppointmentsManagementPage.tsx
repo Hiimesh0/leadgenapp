@@ -18,7 +18,9 @@ import {
   X,
   Plus,
   RefreshCw,
-  FileText
+  FileText,
+  MessageSquare,
+  Send
 } from 'lucide-react';
 
 export const AppointmentsManagementPage: React.FC = () => {
@@ -39,6 +41,38 @@ export const AppointmentsManagementPage: React.FC = () => {
   const [rescheduleDate, setRescheduleDate] = useState('');
   const [rescheduleTime, setRescheduleTime] = useState('11:00 AM');
   const [rescheduleNote, setRescheduleNote] = useState('');
+
+  // WhatsApp Retry State
+  const [retryingId, setRetryingId] = useState<string | null>(null);
+  const [notificationBanner, setNotificationBanner] = useState<{ id: string; text: string; ok: boolean } | null>(null);
+
+  const handleRetryWhatsApp = async (aptId: string) => {
+    setRetryingId(aptId);
+    try {
+      const res = await clinicApi.retryNotification(aptId);
+      setNotificationBanner({ id: aptId, text: res.message, ok: res.success });
+      await loadAppointments();
+    } catch (err: any) {
+      setNotificationBanner({ id: aptId, text: err?.message || 'Notification retry failed', ok: false });
+    } finally {
+      setRetryingId(null);
+      setTimeout(() => setNotificationBanner(null), 4500);
+    }
+  };
+
+  const getNotificationBadge = (status?: string) => {
+    switch (status) {
+      case 'Sent to WAHA':
+      case 'Delivered':
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'Pending':
+        return 'bg-amber-50 text-amber-700 border-amber-200';
+      case 'Failed':
+        return 'bg-rose-50 text-rose-700 border-rose-200';
+      default:
+        return 'bg-slate-100 text-slate-600 border-slate-200';
+    }
+  };
 
   // New Appointment Modal state (for doctor to add walk-ins)
   const [newModalOpen, setNewModalOpen] = useState(false);
@@ -271,6 +305,28 @@ export const AppointmentsManagementPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Notification toast */}
+      {notificationBanner && (
+        <div
+          className={`p-3 rounded-xl border text-xs flex items-center justify-between ${
+            notificationBanner.ok
+              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+              : 'bg-rose-50 text-rose-800 border-rose-200'
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <MessageSquare className="w-4 h-4 shrink-0" />
+            <span>{notificationBanner.text}</span>
+          </div>
+          <button
+            onClick={() => setNotificationBanner(null)}
+            className="text-slate-400 hover:text-slate-600 text-xs"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Main Appointments Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
@@ -292,6 +348,7 @@ export const AppointmentsManagementPage: React.FC = () => {
                   <th className="px-5 py-3">Service & Doctor</th>
                   <th className="px-5 py-3">Date & Time Slot</th>
                   <th className="px-5 py-3">Status</th>
+                  <th className="px-5 py-3">WAHA WhatsApp</th>
                   <th className="px-5 py-3 text-right">Actions</th>
                 </tr>
               </thead>
@@ -359,6 +416,37 @@ export const AppointmentsManagementPage: React.FC = () => {
                       >
                         {apt.status}
                       </span>
+                    </td>
+
+                    {/* WhatsApp Notification Column */}
+                    <td className="px-5 py-4 whitespace-nowrap">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-1.5">
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-semibold border ${getNotificationBadge(
+                              apt.notificationStatus
+                            )}`}
+                          >
+                            {apt.notificationStatus || 'Not Configured'}
+                          </span>
+                          {(apt.notificationStatus === 'Failed' ||
+                            apt.notificationStatus === 'Not Configured' ||
+                            !apt.notificationStatus) && (
+                            <button
+                              type="button"
+                              onClick={() => handleRetryWhatsApp(apt.id)}
+                              disabled={retryingId === apt.id}
+                              className="p-1 text-teal-700 bg-teal-50 hover:bg-teal-100 rounded border border-teal-200 transition cursor-pointer disabled:opacity-50"
+                              title="Retry Sending WhatsApp Confirmation via WAHA"
+                            >
+                              <Send className={`w-3 h-3 ${retryingId === apt.id ? 'animate-pulse' : ''}`} />
+                            </button>
+                          )}
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-mono">
+                          {apt.notificationMaskedPhone || apt.phone}
+                        </div>
+                      </div>
                     </td>
 
                     {/* Actions */}
@@ -535,11 +623,40 @@ export const AppointmentsManagementPage: React.FC = () => {
                 <strong>Reference:</strong> {selectedAppointment.appointmentRef}
               </div>
               <div>
-                <strong>Patient:</strong> {selectedAppointment.patientName} ({selectedAppointment.phone})
+                <strong>Patient:</strong> {selectedAppointment.patientName} ({selectedAppointment.notificationMaskedPhone || selectedAppointment.phone})
               </div>
               <div>
                 <strong>Service:</strong> {selectedAppointment.serviceName}
               </div>
+              <div className="pt-2 mt-2 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span className="font-semibold text-slate-800">WhatsApp Notification: </span>
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded text-[11px] font-semibold border ${getNotificationBadge(
+                      selectedAppointment.notificationStatus
+                    )}`}
+                  >
+                    {selectedAppointment.notificationStatus || 'Not Configured'}
+                  </span>
+                </div>
+                {(selectedAppointment.notificationStatus === 'Failed' ||
+                  selectedAppointment.notificationStatus === 'Not Configured') && (
+                  <button
+                    type="button"
+                    onClick={() => handleRetryWhatsApp(selectedAppointment.id)}
+                    disabled={retryingId === selectedAppointment.id}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-semibold cursor-pointer disabled:opacity-50"
+                  >
+                    <Send className="w-3 h-3" />
+                    <span>Retry WhatsApp</span>
+                  </button>
+                )}
+              </div>
+              {selectedAppointment.notificationError && (
+                <div className="p-2 bg-rose-50 text-rose-700 rounded-lg text-[11px] border border-rose-200 mt-1">
+                  <strong>WAHA Error:</strong> {selectedAppointment.notificationError}
+                </div>
+              )}
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-3 pr-1">

@@ -333,6 +333,22 @@ export const dbOps = {
 
   addAppointment(appointmentData, historyNote = 'Appointment request submitted via website booking form.') {
     const data = readDb();
+
+    // Duplicate submission prevention: check for identical phone, date, time within 5 minutes
+    const cleanPhone = (appointmentData.phone || '').replace(/\D/g, '').slice(-10);
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+    const existing = data.appointments.find(a => 
+      (a.phone || '').replace(/\D/g, '').slice(-10) === cleanPhone &&
+      a.preferred_date === appointmentData.preferred_date &&
+      a.preferred_time === appointmentData.preferred_time &&
+      new Date(a.created_at).getTime() > fiveMinutesAgo
+    );
+
+    if (existing) {
+      console.log(`[DB] Idempotency triggered: Returning existing appointment ${existing.appointment_ref} to prevent duplicate.`);
+      return { appointment: existing, isDuplicate: true };
+    }
+
     data.appointments.unshift(appointmentData);
 
     const historyEntry = {
@@ -347,7 +363,37 @@ export const dbOps = {
     data.appointment_history.unshift(historyEntry);
 
     writeDb(data);
-    return appointmentData;
+    return { appointment: appointmentData, isDuplicate: false };
+  },
+
+  updateAppointmentNotification(idOrRef, notificationResult) {
+    const data = readDb();
+    const aptIndex = data.appointments.findIndex(a => a.id === idOrRef || a.appointment_ref === idOrRef);
+    if (aptIndex === -1) return null;
+
+    const apt = data.appointments[aptIndex];
+    apt.notification_channel = 'whatsapp';
+    apt.notification_status = notificationResult.status;
+    apt.notification_message_id = notificationResult.messageId || apt.notification_message_id || null;
+    apt.notification_last_attempt = notificationResult.attemptTime || new Date().toISOString();
+    apt.notification_error = notificationResult.error || null;
+    apt.notification_masked_phone = notificationResult.maskedPhone || apt.notification_masked_phone || null;
+
+    // Log to appointment audit history
+    data.appointment_history.unshift({
+      id: `hist-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+      appointment_ref: apt.appointment_ref,
+      previous_status: apt.status,
+      new_status: apt.status,
+      changed_by: 'WAHA WhatsApp Service',
+      changed_at: new Date().toISOString(),
+      note: notificationResult.success
+        ? `WhatsApp confirmation message delivered to provider. (WAHA ID: ${notificationResult.messageId || 'N/A'})`
+        : `WhatsApp confirmation attempt result: ${notificationResult.status}. ${notificationResult.error || ''}`
+    });
+
+    writeDb(data);
+    return apt;
   },
 
   updateAppointmentStatus(idOrRef, newStatus, changedBy = 'Dr. XYZ', note = '') {

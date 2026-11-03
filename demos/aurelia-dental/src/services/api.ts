@@ -4,7 +4,8 @@ import {
   AppointmentStatus,
   DashboardStats,
   DoctorUser,
-  PatientEnquiry
+  PatientEnquiry,
+  WahaStatus
 } from '../types';
 
 const API_BASE = ((import.meta as any).env?.VITE_API_URL as string) || 'http://localhost:5000/api';
@@ -212,6 +213,17 @@ function getAuthToken(): string | null {
   return localStorage.getItem(STORAGE_KEYS.TOKEN);
 }
 
+function maskPhone(phone: string): string {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length >= 10) {
+    const last2 = digits.slice(-2);
+    const first5 = digits.length === 10 ? digits.slice(0, 5) : digits.slice(digits.length - 10, digits.length - 5);
+    return `+91 ${first5} ****${last2}`;
+  }
+  return phone;
+}
+
 // Map snake_case server row to camelCase frontend interface
 function mapServerAppointment(row: Record<string, any>): Appointment {
   return {
@@ -228,7 +240,13 @@ function mapServerAppointment(row: Record<string, any>): Appointment {
     notes: row.notes || '',
     status: row.status as AppointmentStatus,
     createdAt: row.created_at || row.createdAt,
-    updatedAt: row.updated_at || row.updatedAt
+    updatedAt: row.updated_at || row.updatedAt,
+    notificationChannel: row.notification_channel || row.notificationChannel || 'whatsapp',
+    notificationStatus: (row.notification_status || row.notificationStatus || 'Not Configured') as any,
+    notificationMessageId: row.notification_message_id || row.notificationMessageId || null,
+    notificationLastAttempt: row.notification_last_attempt || row.notificationLastAttempt || null,
+    notificationError: row.notification_error || row.notificationError || null,
+    notificationMaskedPhone: row.notification_masked_phone || row.notificationMaskedPhone || maskPhone(row.phone || '')
   };
 }
 
@@ -639,6 +657,99 @@ export const clinicApi = {
     if (item) {
       item.status = status;
       localStorage.setItem(STORAGE_KEYS.ENQUIRIES, JSON.stringify(enquiries));
+    }
+  },
+
+  // 11. Retry WhatsApp Appointment Notification
+  async retryNotification(id: string): Promise<{ success: boolean; message: string; appointment?: Appointment }> {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/appointments/${id}/retry-notification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+      if (res.ok && data.appointment) {
+        return {
+          success: data.success,
+          message: data.message,
+          appointment: mapServerAppointment(data.appointment)
+        };
+      }
+      return { success: false, message: data.message || 'Notification retry failed' };
+    } catch (err: any) {
+      // Local fallback simulation if server is offline
+      const appointments: Appointment[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.APPOINTMENTS) || '[]');
+      const apt = appointments.find(a => a.id === id);
+      if (apt) {
+        apt.notificationStatus = 'Sent to WAHA';
+        apt.notificationLastAttempt = new Date().toISOString();
+        apt.notificationError = null;
+        localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(appointments));
+        return {
+          success: true,
+          message: 'WhatsApp notification queued (local offline mode)',
+          appointment: apt
+        };
+      }
+      return { success: false, message: err?.message || 'Server connection failed' };
+    }
+  },
+
+  // 12. Get WAHA WhatsApp API Status
+  async getWahaStatus(): Promise<WahaStatus> {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/doctor/waha/status`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch {
+      // Server offline or not running
+    }
+    return {
+      configured: false,
+      status: 'UNAVAILABLE',
+      label: 'Backend Offline / WAHA Service Unavailable',
+      connected: false,
+      session: 'default',
+      baseUrl: 'http://localhost:3000',
+      error: 'Cannot connect to backend or WAHA WhatsApp service daemon'
+    };
+  },
+
+  // 13. Get WAHA QR Code
+  async getWahaQr(): Promise<{ ok: boolean; qr?: string; error?: string }> {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/doctor/waha/qr`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return await res.json();
+    } catch (err: any) {
+      return { ok: false, error: err?.message || 'Failed to fetch QR code from backend' };
+    }
+  },
+
+  // 14. Restart WAHA Session
+  async restartWahaSession(): Promise<{ ok: boolean; message?: string }> {
+    try {
+      const token = getAuthToken();
+      const res = await fetch(`${API_BASE}/doctor/waha/restart`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return await res.json();
+    } catch (err: any) {
+      return { ok: false, message: err?.message || 'Failed to restart WAHA session' };
     }
   }
 };

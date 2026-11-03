@@ -81,6 +81,24 @@ export interface Appointment {
   status: AppointmentStatus;
   createdAt: string;
   updatedAt: string;
+  // WhatsApp Notification Integration
+  notificationChannel?: string;
+  notificationStatus?: 'Not Configured' | 'Pending' | 'Sent to WAHA' | 'Failed' | 'Delivered';
+  notificationMessageId?: string | null;
+  notificationLastAttempt?: string | null;
+  notificationError?: string | null;
+  notificationMaskedPhone?: string;
+}
+
+export interface WahaStatus {
+  configured: boolean;
+  status: 'CONNECTED' | 'SCAN_QR_CODE' | 'CONNECTING' | 'DISCONNECTED' | 'UNAVAILABLE' | 'NOT_CONFIGURED';
+  label: string;
+  connected: boolean;
+  qrRequired?: boolean;
+  session: string;
+  baseUrl: string;
+  error?: string;
 }
 
 export interface AppointmentHistory {

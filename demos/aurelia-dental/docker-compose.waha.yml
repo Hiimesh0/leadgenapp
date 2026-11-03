@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  waha:
+    image: devlikeappro/waha:latest
+    container_name: waha_dental_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - WAHA_ZIP_LOGS=false
+      - WAHA_PRINT_QR=true
+      - WAHA_LOG_LEVEL=info
+      - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_USERNAME=admin
+      - WAHA_DASHBOARD_PASSWORD=DoctorXYZ@2026
+    volumes:
+      - waha_sessions:/app/.sessions
+
+volumes:
+  waha_sessions:
+    driver: local

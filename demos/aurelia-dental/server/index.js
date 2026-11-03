@@ -3,6 +3,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { initDb, dbOps } from './db.js';
+import { wahaService, normalizeIndianPhone } from './waha.js';
 
 // Initialize the JSON database and default records
 initDb();
@@ -120,8 +121,8 @@ app.get('/api/auth/me', authenticateToken, (req, res) => {
 // PUBLIC PATIENT ROUTES
 // ==========================================
 
-// Create public appointment request
-app.post('/api/public/appointments', (req, res) => {
+// Create public appointment request & trigger WAHA confirmation
+app.post('/api/public/appointments', async (req, res) => {
   const {
     patient_name,
     phone,
@@ -137,6 +138,10 @@ app.post('/api/public/appointments', (req, res) => {
   if (!patient_name || !phone || !preferred_date || !preferred_time) {
     return res.status(400).json({ error: 'Patient name, phone number, date, and time are required.' });
   }
+
+  // Validate phone format before saving
+  const phoneInfo = normalizeIndianPhone(phone);
+  const maskedPhone = phoneInfo ? phoneInfo.masked : `+91 ****${phone.trim().slice(-4)}`;
 
   try {
     const id = `apt-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -159,16 +164,45 @@ app.post('/api/public/appointments', (req, res) => {
       preferred_time,
       notes: notes ? notes.trim() : '',
       status: 'Pending',
+      notification_channel: 'whatsapp',
+      notification_status: 'Pending',
+      notification_message_id: null,
+      notification_last_attempt: null,
+      notification_error: null,
+      notification_masked_phone: maskedPhone,
       created_at: now,
       updated_at: now
     };
 
-    dbOps.addAppointment(newAppointment);
+    const result = dbOps.addAppointment(newAppointment);
+
+    if (result.isDuplicate) {
+      console.log(`[API] Returning duplicate appointment ${result.appointment.appointment_ref} without re-sending.`);
+      return res.status(200).json({
+        success: true,
+        message: 'Existing consultation request found. No duplicate booking created.',
+        appointment: result.appointment,
+        isDuplicate: true
+      });
+    }
+
+    // Trigger WAHA WhatsApp confirmation message
+    console.log(`[API] Triggering WAHA WhatsApp confirmation for ${newAppointment.appointment_ref}...`);
+    const notificationResult = await wahaService.sendAppointmentConfirmation(newAppointment);
+
+    // Update notification status on saved appointment record
+    const updatedWithNotification = dbOps.updateAppointmentNotification(newAppointment.id, notificationResult);
 
     res.status(201).json({
       success: true,
       message: 'Appointment request submitted successfully.',
-      appointment: newAppointment
+      appointment: updatedWithNotification || newAppointment,
+      notification: {
+        status: notificationResult.status,
+        maskedPhone: notificationResult.maskedPhone,
+        messageId: notificationResult.messageId || null,
+        error: notificationResult.error || null
+      }
     });
   } catch (error) {
     console.error('Create appointment error:', error);
@@ -309,6 +343,69 @@ app.patch('/api/appointments/:id/reschedule', authenticateToken, (req, res) => {
   }
 });
 
+// ==========================================
+// WAHA WHATSAPP SERVICE & RETRY ROUTES (PROTECTED)
+// ==========================================
+
+// Check WAHA Connection & Session Status
+app.get('/api/doctor/waha/status', authenticateToken, async (req, res) => {
+  try {
+    const status = await wahaService.getStatus();
+    res.json({ success: true, waha: status });
+  } catch (error) {
+    console.error('WAHA status error:', error);
+    res.status(500).json({ error: 'Failed to fetch WAHA status.' });
+  }
+});
+
+// Get QR Code for Session Authentication
+app.get('/api/doctor/waha/qr', authenticateToken, async (req, res) => {
+  try {
+    const qrResult = await wahaService.getQrCode();
+    res.json({ success: qrResult.ok, qr: qrResult.qr, error: qrResult.error });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve WAHA QR code.' });
+  }
+});
+
+// Restart WAHA Session
+app.post('/api/doctor/waha/restart', authenticateToken, async (req, res) => {
+  try {
+    const result = await wahaService.restartSession();
+    res.json({ success: result.ok, result });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to restart WAHA session.' });
+  }
+});
+
+// Retry Failed WhatsApp Notification for an Existing Appointment
+app.post('/api/appointments/:id/retry-notification', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const appointment = dbOps.findAppointment(id);
+    if (!appointment) {
+      return res.status(404).json({ error: 'Appointment not found.' });
+    }
+
+    console.log(`[API] Doctor manually retrying WhatsApp confirmation for ${appointment.appointment_ref}...`);
+    const notificationResult = await wahaService.sendAppointmentConfirmation(appointment);
+    const updated = dbOps.updateAppointmentNotification(appointment.id, notificationResult);
+
+    res.json({
+      success: notificationResult.success,
+      status: notificationResult.status,
+      message: notificationResult.success
+        ? 'WhatsApp notification sent successfully.'
+        : `Notification attempt status: ${notificationResult.status}. ${notificationResult.error || ''}`,
+      appointment: updated
+    });
+  } catch (error) {
+    console.error('Retry notification error:', error);
+    res.status(500).json({ error: 'Failed to retry notification delivery.' });
+  }
+});
+
 // Patient Enquiries list
 app.get('/api/enquiries', authenticateToken, (req, res) => {
   try {
@@ -340,6 +437,7 @@ app.listen(PORT, () => {
   console.log(`\n======================================================`);
   console.log(`🦷 XYZ Dental Clinic - Doctor Admin API Server (JSON DB)`);
   console.log(`🚀 Running at: http://localhost:${PORT}`);
+  console.log(`💬 WAHA WhatsApp API: ${wahaService.enabled ? 'Enabled (' + wahaService.baseUrl + ')' : 'Disabled (WAHA_ENABLED=false)'}`);
   console.log(`🔑 Doctor Login: kanthariyahimesh@gmail.com / DoctorXYZ@2026`);
   console.log(`======================================================\n`);
 });
