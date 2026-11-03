@@ -8,7 +8,7 @@ import {
   WahaStatus
 } from '../types';
 
-const API_BASE = ((import.meta as any).env?.VITE_API_URL as string) || 'http://localhost:5005/api';
+const API_BASE = ((import.meta as any).env?.VITE_API_URL as string) || 'https://smoking-cable-cole-second.trycloudflare.com/api';
 
 // Keys for local persistence fallback
 const STORAGE_KEYS = {

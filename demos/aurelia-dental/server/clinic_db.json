@@ -19,6 +19,92 @@
   ],
   "appointments": [
     {
+      "id": "apt-1793706083821-217",
+      "appointment_ref": "APT-2026-7122",
+      "patient_name": "Patient (Test)",
+      "phone": "8320760661",
+      "email": "patient.test@example.com",
+      "service_id": "cosmetic-dentistry",
+      "service_name": "Cosmetic Smile Design & Veneers (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-06",
+      "preferred_time": "11:00 AM",
+      "notes": "Real live WhatsApp confirmation test",
+      "status": "Pending",
+      "notification_channel": "whatsapp",
+      "notification_status": "Sent to WAHA",
+      "notification_message_id": {
+        "fromMe": true,
+        "remote": "101893921574991@lid",
+        "id": "3EB03069B2C511782E72CC",
+        "$1": "true_101893921574991@lid_3EB03069B2C511782E72CC",
+        "_serialized": "true_101893921574991@lid_3EB03069B2C511782E72CC"
+      },
+      "notification_last_attempt": "2026-11-03T11:41:23.921Z",
+      "notification_error": null,
+      "notification_masked_phone": "+91 83207 ****61",
+      "created_at": "2026-11-03T11:41:23.821Z",
+      "updated_at": "2026-11-03T11:41:23.821Z"
+    },
+    {
+      "id": "apt-1793705879231-544",
+      "appointment_ref": "APT-2026-4228",
+      "patient_name": "Test",
+      "phone": "9974012606",
+      "email": "",
+      "service_id": "general-consultation",
+      "service_name": "General Dental Consultation",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-05",
+      "preferred_time": "11:00 AM",
+      "notes": "",
+      "status": "Pending",
+      "notification_channel": "whatsapp",
+      "notification_status": "Sent to WAHA",
+      "notification_message_id": {
+        "fromMe": true,
+        "remote": "78641488777222@lid",
+        "id": "3EB01AB7415C35382EC4B9",
+        "self": "out",
+        "$1": "true_78641488777222@lid_3EB01AB7415C35382EC4B9_out",
+        "_serialized": "true_78641488777222@lid_3EB01AB7415C35382EC4B9_out"
+      },
+      "notification_last_attempt": "2026-11-03T11:37:59.370Z",
+      "notification_error": null,
+      "notification_masked_phone": "+91 99740 ****06",
+      "created_at": "2026-11-03T11:37:59.231Z",
+      "updated_at": "2026-11-03T11:37:59.231Z"
+    },
+    {
+      "id": "apt-1793704898793-534",
+      "appointment_ref": "APT-2026-9218",
+      "patient_name": "Himesh (Demo Patient)",
+      "phone": "9974012606",
+      "email": "kanthariyahimesh@gmail.com",
+      "service_id": "cosmetic-dentistry",
+      "service_name": "Cosmetic Smile Design & Veneers (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-05",
+      "preferred_time": "10:30 AM",
+      "notes": "Testing real automated WhatsApp appointment confirmation via WAHA",
+      "status": "Pending",
+      "notification_channel": "whatsapp",
+      "notification_status": "Sent to WAHA",
+      "notification_message_id": {
+        "fromMe": true,
+        "remote": "78641488777222@lid",
+        "id": "3EB0E255214055B89E0ABF",
+        "self": "out",
+        "$1": "true_78641488777222@lid_3EB0E255214055B89E0ABF_out",
+        "_serialized": "true_78641488777222@lid_3EB0E255214055B89E0ABF_out"
+      },
+      "notification_last_attempt": "2026-11-03T11:21:38.912Z",
+      "notification_error": null,
+      "notification_masked_phone": "+91 99740 ****06",
+      "created_at": "2026-11-03T11:21:38.794Z",
+      "updated_at": "2026-11-03T11:21:38.794Z"
+    },
+    {
       "id": "apt-001",
       "appointment_ref": "APT-2026-001",
       "patient_name": "Aarav Patel (Demo Patient)",
@@ -132,6 +218,60 @@
     }
   ],
   "appointment_history": [
+    {
+      "id": "hist-1793706083922-699",
+      "appointment_ref": "APT-2026-7122",
+      "previous_status": "Pending",
+      "new_status": "Pending",
+      "changed_by": "WAHA WhatsApp Service",
+      "changed_at": "2026-11-03T11:41:23.922Z",
+      "note": "WhatsApp confirmation message delivered to provider. (WAHA ID: [object Object])"
+    },
+    {
+      "id": "hist-1793706083833-866",
+      "appointment_ref": "APT-2026-7122",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-03T11:41:23.821Z",
+      "note": "Appointment request submitted via website booking form."
+    },
+    {
+      "id": "hist-1793705879372-313",
+      "appointment_ref": "APT-2026-4228",
+      "previous_status": "Pending",
+      "new_status": "Pending",
+      "changed_by": "WAHA WhatsApp Service",
+      "changed_at": "2026-11-03T11:37:59.372Z",
+      "note": "WhatsApp confirmation message delivered to provider. (WAHA ID: [object Object])"
+    },
+    {
+      "id": "hist-1793705879233-385",
+      "appointment_ref": "APT-2026-4228",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-03T11:37:59.231Z",
+      "note": "Appointment request submitted via website booking form."
+    },
+    {
+      "id": "hist-1793704898914-189",
+      "appointment_ref": "APT-2026-9218",
+      "previous_status": "Pending",
+      "new_status": "Pending",
+      "changed_by": "WAHA WhatsApp Service",
+      "changed_at": "2026-11-03T11:21:38.914Z",
+      "note": "WhatsApp confirmation message delivered to provider. (WAHA ID: [object Object])"
+    },
+    {
+      "id": "hist-1793704898796-548",
+      "appointment_ref": "APT-2026-9218",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-03T11:21:38.794Z",
+      "note": "Appointment request submitted via website booking form."
+    },
     {
       "id": "hist-apt-001-init",
       "appointment_ref": "APT-2026-001",
