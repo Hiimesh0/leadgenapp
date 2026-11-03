@@ -175,3 +175,4 @@ export const DoctorLoginPage: React.FC = () => {
     </div>
   );
 };
+

@@ -743,3 +743,4 @@ export const AppointmentsManagementPage: React.FC = () => {
     </div>
   );
 };
+

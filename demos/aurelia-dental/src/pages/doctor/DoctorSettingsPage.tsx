@@ -116,3 +116,4 @@ export const DoctorSettingsPage: React.FC = () => {
     </div>
   );
 };
+

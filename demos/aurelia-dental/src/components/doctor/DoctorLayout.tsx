@@ -236,3 +236,4 @@ export const DoctorLayout: React.FC = () => {
     </div>
   );
 };
+

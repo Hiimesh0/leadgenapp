@@ -123,3 +123,4 @@ export const DoctorEnquiriesPage: React.FC = () => {
     </div>
   );
 };
+
