@@ -1,3 +1,5 @@
+export type AppointmentStatus = 'Pending' | 'Confirmed' | 'Completed' | 'Cancelled' | 'Rescheduled';
+
 export interface Service {
   id: string;
   name: string;
@@ -56,11 +58,68 @@ export interface AppointmentFormData {
   phone: string;
   email: string;
   serviceId: string;
-  doctorId: string;
+  doctorId?: string;
   preferredDate: string;
   preferredTimeSlot: string;
-  isFirstVisit: boolean;
-  notes: string;
+  isFirstVisit?: boolean;
+  notes?: string;
   agreedToTerms: boolean;
 }
 
+export interface Appointment {
+  id: string;
+  appointmentRef: string;
+  patientName: string;
+  phone: string;
+  email: string;
+  serviceId: string;
+  serviceName: string;
+  doctorName: string;
+  preferredDate: string;
+  preferredTime: string;
+  notes: string;
+  status: AppointmentStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AppointmentHistory {
+  id: string;
+  appointmentRef: string;
+  previousStatus: string;
+  newStatus: string;
+  changedBy: string;
+  changedAt: string;
+  note: string;
+}
+
+export interface PatientEnquiry {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  subject: string;
+  message: string;
+  status: 'Unread' | 'Reviewed' | 'Replied';
+  createdAt: string;
+}
+
+export interface DoctorUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  token?: string;
+}
+
+export interface DashboardStats {
+  total: number;
+  today: number;
+  pending: number;
+  confirmed: number;
+  completed: number;
+  cancelled: number;
+  rescheduled: number;
+  enquiriesTotal: number;
+  enquiriesUnread: number;
+}

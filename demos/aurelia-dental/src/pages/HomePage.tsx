@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Sparkles, Calendar, ArrowRight, ShieldCheck, HeartPulse, Clock, 
-  MapPin, CheckCircle2, Phone, Star, Award, Layers, Sun, Activity, Smile
+  MapPin, CheckCircle2, Phone, Star, Award, Layers, Sun, Activity, Smile, ShieldAlert
 } from 'lucide-react';
 import { CLINIC_INFO, SERVICES, DOCTORS, TESTIMONIALS } from '../data/clinicData';
+import { CLINIC_CONFIG } from '../config/clinicConfig';
 import { SmileComparisonSlider } from '../components/common/SmileComparisonSlider';
 
 interface HomePageProps {
@@ -28,6 +29,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenAppointmentModal }) =>
 
   return (
     <div className="min-h-screen">
+      {/* Discreet Compulsory Demo Notice */}
+      <div className="bg-amber-500/10 border-b border-amber-200/80 px-4 py-2 text-xs text-amber-900 text-center font-medium">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0" />
+          <span>
+            <strong>DEMO NOTICE:</strong> {CLINIC_CONFIG.demoNotice}
+          </span>
+        </div>
+      </div>
       
       {/* ═══════════════════════════════════════════════════════
           1. HERO SECTION (Split-screen, Editorial Luxury)

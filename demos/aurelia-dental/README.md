@@ -1,160 +1,101 @@
-# 🦷 Aurelia Dental Studio — Modern Healthcare Web Platform
-**Demo Client:** Aurelia Dental Studio  
-**Location:** Vesu, Surat, Gujarat, India  
-**Stack:** React 19, TypeScript, Vite 6, Tailwind CSS, Lucide Icons, HashRouter  
-**License:** Free & Open Source for Commercial Customization by DigiBoost Gujarat  
+# 🦷 XYZ Dental Clinic — Modern Healthcare Platform & Doctor Admin System
+
+**Demo Brand:** XYZ Dental Clinic  
+**Doctor:** Dr. XYZ  
+**Location:** XYZ, Surat, Gujarat, India  
+**Phone:** 9974012606  
+**Email:** kanthariyahimesh@gmail.com  
+**Stack:** React 19, TypeScript, Vite 6, Tailwind CSS, Express, Node.js, JSON Database (`clinic_db.json`), JWT Authentication  
+**Demo Notice:** *"DEMO WEBSITE — All doctor, clinic, appointment, and service information is fictional and provided for demonstration purposes only."*
 
 ---
 
 ## 🌟 Executive Summary
 
-**Aurelia Dental Studio** is a high-fidelity, production-grade demonstration website designed and engineered specifically for modern private dental practices, cosmetic smile clinics, and multispecialty healthcare centers in India.
-
-Built on extensive market research of over 20 award-winning international and Indian healthcare websites (see [WEBSITE_RESEARCH.md](WEBSITE_RESEARCH.md)), this platform breaks away from generic, sterile blue-and-white templates. Instead, it utilizes a sophisticated **Boutique Wellness Aesthetic**—combining warm ivory backgrounds, rich forest green accents, refined typography, and high-converting, anxiety-reducing patient flows.
-
----
-
-## 🎯 Key Functional Features
-
-1. **Complete Multi-Page Architecture:**
-   - **Homepage:** Asymmetrical split-screen hero, 4 clinical trust pillars, 8 specialized service cards, interactive Before/After cosmetic smile slider, founder dentist profile cards, 5-step patient journey timeline, verified sample reviews, and integrated Google Maps location.
-   - **About the Studio:** Origin story, "Minimal Intervention" clinical pledge, hospital-grade technology tour (Zeiss microscopes, iTero 3D scanners, Melag Class-B vacuum autoclaves).
-   - **Meet the Dentists:** Detailed specialist biographies for Dr. Ananya Mehta (MDS Prosthodontics) and Dr. Rohan Vora (MDS Endodontics), qualifications, clinical philosophy, languages spoken (Gujarati, Hindi, English), and professional association memberships.
-   - **Dental Services Catalog:** Filterable treatment catalog (All, Cosmetic, Restorative, Preventive, Specialized) with starting prices and procedure durations.
-   - **Individual Treatment Detail Pages:** Dedicated pages for each of the 8 treatments (e.g. `/services/cosmetic-dentistry`, `/services/dental-implants`) featuring clinical benefits, 3-step procedure breakdown, and candidate criteria.
-   - **Patient Info & Fee Guide:** First-visit preparation guide, transparent treatment pricing guide table, and expandable FAQ accordion.
-   - **Patient Stories:** Verified patient case studies with treatment filters (Smile Makeovers, Implants, Aligners, Endodontics).
-   - **Contact & Location:** Operating hours, interactive Google Map, direct click-to-call, and transit guide from Surat International Airport and Railway Station.
-   - **Appointment Booking:** Dedicated appointment booking page and global quick-access consultation modal.
-
-2. **Conversion & Engagement Tools:**
-   - **Interactive Smile Comparison Slider:** Allows patients to drag left/right to visualize before-and-after smile transformations.
-   - **Interactive Consultation Request Modal:** Full form with validation, preferred date picker, preferred time window, doctor preference, and Chief Concern notes.
-   - **Floating WhatsApp Concierge:** Instant click-to-chat button with prefilled Gujarati/English inquiry text.
-   - **Click-to-Call Telephony:** Seamless mobile calling to clinic reception.
-   - **Scroll-to-Top Navigation:** Automatic window reset across all page routes.
-
-3. **SEO, Performance & Accessibility:**
-   - Local Business Schema.org JSON-LD structured data for Google Local Search.
-   - Open Graph social share metadata.
-   - WCAG 2.1 AA compliant color contrast and keyboard focus indicators.
-   - Responsive breakpoints tested from 375px mobile screens up to 1920px 4K displays.
-   - Pure client-side bundle: Sub-200ms route transitions with zero server latency.
+**XYZ Dental Clinic** is a high-fidelity, production-grade healthcare demonstration web application featuring both:
+1. **A Patient-Facing Public Website:** Modern, mobile-responsive, conversion-optimized dental clinic experience with online consultation booking, treatment guides, interactive smile preview slider, and patient enquiries.
+2. **A Doctor Admin Dashboard (`/doctor/dashboard`):** Secure administrative portal where Dr. XYZ logs in, monitors live booking metrics, reviews incoming patient requests, updates appointment statuses (Pending, Confirmed, Completed, Cancelled, Rescheduled), inspects complete audit timelines, and views daily timetable schedules.
+3. **Persistent JSON Database (`server/clinic_db.json`):** Zero-configuration, file-based JSON database engine storing doctors, appointments, full status audit history, and contact form messages.
 
 ---
 
-## 📋 List of Demo Placeholders Requiring Replacement for Real Clients
+## 🔑 Doctor Demo Login Credentials
 
-When adapting this project for a paying dental clinic client, simply edit `src/data/clinicData.ts`. All content is centralized in this single file:
+Doctors can access the administration dashboard directly at `#/doctor/login`:
 
-| Component / Field | Current Demo Placeholder | Real Clinic Replacement |
-|---|---|---|
-| **Clinic Name** | Aurelia Dental Studio | Client's official practice name |
-| **Address & Area** | Suite 402, Aurelia Blvd, Vesu, Surat | Client's physical clinic address |
-| **Contact Phone** | `+91 98250 12345` / `(0261) 289-4321` | Client's real mobile & desk telephone |
-| **WhatsApp Number** | `+919825012345` | Reception WhatsApp Business mobile number |
-| **Clinic Email** | `concierge@aureliadental.in` | Client's official email address |
-| **Google Maps Embed** | Vesu, Surat coordinates | Client's Google Business Profile embed URL |
-| **Dentist Profiles** | Dr. Ananya Mehta & Dr. Rohan Vora | Real doctors' names, photos, degrees, & bios |
-| **Pricing Schedule** | Representative Surat fee schedule | Client's actual consultation & treatment fees |
-| **Testimonials** | 4 sample case narratives | Verified patient reviews with client consent |
-| **Clinic Photography** | Curated high-res Unsplash imagery | Real interior & operatory photos of client's clinic |
+- **Doctor Email:** `kanthariyahimesh@gmail.com` *(or `doctor@xyzdental.com`)*
+- **Password:** `DoctorXYZ@2026`
+- **Dashboard URL:** `#/doctor/dashboard`
+
+> **Note:** A "Quick Fill" button is also provided on the login page for instant one-click demonstration.
 
 ---
 
-## 🛠️ Local Development & Setup
+## 📂 Architecture & Data Centralization
 
-### Prerequisites
-- Node.js v18+ (tested on Node v24)
-- pnpm, npm, or yarn
+All clinic identity and doctor information is centralized in:
+`src/config/clinicConfig.ts`
 
-### Installation Steps
+Any change to clinic name, doctor credentials, phone numbers, or timings made in this file automatically propagates across all public pages, modals, and footer disclaimers.
 
+### JSON File-Based Database (`server/clinic_db.json`)
+The server uses a lightweight JSON database located at `server/clinic_db.json` containing:
+- `doctors`: Doctor accounts with bcrypt password hashes and roles.
+- `appointments`: Real-time booking records (`id`, `appointment_ref`, `patient_name`, `phone`, `email`, `service_name`, `preferred_date`, `preferred_time`, `status`, `notes`).
+- `appointment_history`: Audit trail capturing every status transition, timestamp, changed-by agent, and clinical note.
+- `enquiries`: Incoming messages submitted from the public contact page.
+
+### Dual-Layer Storage Resilience
+- **With Node Server Running:** Frontend communicates directly with Express REST API at `http://localhost:5000/api` saving to `server/clinic_db.json`.
+- **Static Hosting / Offline Fallback:** If deployed on static web hosts (e.g. GitHub Pages), the frontend automatically switches to a synchronized browser `localStorage` database with identical schemas and seeded demo records, ensuring 100% demo functionality anywhere!
+
+---
+
+## 🚀 Running the Project Locally
+
+### 1. Install Dependencies
 ```bash
-# 1. Navigate to project directory
-cd c:\Users\kanth\Desktop\business\demos\aurelia-dental
-
-# 2. Install dependencies
+cd demos/aurelia-dental
 pnpm install
-# (or: npm install)
-
-# 3. Launch local development server
-pnpm dev
-# (or: npm run dev)
 ```
 
-The site will instantly launch at `http://localhost:5173`.
-
----
-
-## 🚀 Free Hosting & Deployment Guide
-
-This project is built using `HashRouter` and produces a completely self-contained static build inside the `dist/` directory. It requires **zero monthly server costs**.
-
-### Option A: GitHub Pages (100% Free)
-
-1. Build the production assets:
-   ```bash
-   pnpm build
-   ```
-2. Upload the project to a GitHub repository (e.g. `your-username/aurelia-dental`).
-3. In repository **Settings** → **Pages**:
-   - Source: Deploy from branch
-   - Branch: `main` / `gh-pages` (folder: `/dist` or root if copying files)
-4. Your website is live with free HTTPS at `https://your-username.github.io/aurelia-dental/`!
-
-### Option B: Vercel (100% Free Tier)
-
-1. Install Vercel CLI: `pnpm add -g vercel` (or deploy via GitHub integration on [vercel.com](https://vercel.com)).
-2. Run `vercel` in the project root.
-3. Accept default Vite settings. Deployed in under 30 seconds with global CDN and automated SSL.
-
-### Option C: Netlify (100% Free Tier)
-
-1. Drag and drop the `dist/` folder directly onto [app.netlify.com/drop](https://app.netlify.com/drop).
-2. Live instantly with custom domain support.
-
----
-
-## 📄 Project Structure
-
+### 2. Start the JSON Database Express API Server (Port 5000)
+```bash
+pnpm run server
 ```
-aurelia-dental/
-├── src/
-│   ├── components/
-│   │   └── common/
-│   │       ├── AnnouncementBar.tsx      # Top utility banner
-│   │       ├── AppointmentModal.tsx     # Interactive consultation booking dialog
-│   │       ├── Footer.tsx               # Footer with hours, links, and demo disclaimer
-│   │       ├── Header.tsx               # Responsive navbar with mobile drawer
-│   │       ├── SmileComparisonSlider.tsx# Interactive Before/After smile makeover slider
-│   │       └── WhatsAppButton.tsx       # Floating WhatsApp click-to-chat action
-│   ├── data/
-│   │   └── clinicData.ts                # Single source of truth for all clinic data
-│   ├── pages/
-│   │   ├── HomePage.tsx                 # Full luxury homepage
-│   │   ├── AboutPage.tsx                # Studio story, philosophy & technology
-│   │   ├── TeamPage.tsx                 # Doctor profiles & academic research
-│   │   ├── ServicesPage.tsx             # Filterable treatment catalog
-│   │   ├── ServiceDetailPage.tsx        # Dynamic individual procedure guide
-│   │   ├── PatientInfoPage.tsx          # First visit guide & fee schedule table
-│   │   ├── TestimonialsPage.tsx         # Patient stories & case studies
-│   │   ├── ContactPage.tsx              # Transit directions, map & inquiry form
-│   │   └── AppointmentPage.tsx          # Dedicated appointment request page
-│   ├── types/
-│   │   └── index.ts                     # TypeScript data interfaces
-│   ├── App.tsx                          # HashRouter setup & scroll management
-│   ├── index.css                        # Tailwind directives & typography styling
-│   └── main.tsx                         # React 19 entry point
-├── public/                              # Static public assets
-├── DESIGN_SYSTEM.md                     # Complete UI design system documentation
-├── WEBSITE_RESEARCH.md                  # Comprehensive research on 20 clinic websites
-├── tailwind.config.js                   # Custom brand tokens & typography config
-├── vite.config.ts                       # Vite bundler config with relative pathing
-└── package.json                         # Project dependencies and build scripts
+*Output: 🦷 XYZ Dental Clinic - Doctor Admin API Server (JSON DB) running on http://localhost:5000*
+
+### 3. Start the Vite Frontend (Port 5173)
+```bash
+pnpm run dev
+```
+Open your browser at `http://localhost:5173`.
+
+### 4. Build for Production
+```bash
+pnpm run build
 ```
 
 ---
 
-*Designed and developed by **DigiBoost Gujarat** — The AI-Powered Web & Automation Agency for Gujarat SMBs.*
+## 📱 Doctor Admin Dashboard Routes
 
+| Route | Description |
+|---|---|
+| `#/doctor/login` | Doctor login with show/hide password, loading state, error alert, and demo disclaimer |
+| `#/doctor/dashboard` | Overview with 6 dynamic metric cards (Total, Today's, Pending, Confirmed, Completed, Changes) and quick-action review table |
+| `#/doctor/appointments` | Full appointments table with search by patient name/ref/phone, status filter tabs, service filter, inline status actions, reschedule modal, and audit history log |
+| `#/doctor/calendar` | Day-by-day timetable visualizer displaying booked slots and available clinic consultation windows |
+| `#/doctor/enquiries` | Patient contact messages list with status toggles (`Unread`, `Reviewed`, `Replied`) |
+| `#/doctor/settings` | Doctor credentials, clinic timings, address, and JSON database diagnostics |
+
+---
+
+## 🛡️ Demo Notice Compliance
+As required for medical demo ethics, the discreet disclaimer is prominently rendered on:
+- Homepage
+- Doctor Profile Page (`#/team`)
+- Appointment Request Page (`#/appointment`)
+- Consultation Request Modal
+- Doctor Login Page (`#/doctor/login`)
+- Doctor Admin Dashboard (`#/doctor/dashboard`)

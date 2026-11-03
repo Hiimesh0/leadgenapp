@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Calendar, Phone, ArrowRight } from 'lucide-react';
-import { CLINIC_INFO } from '../../data/clinicData';
+import { Menu, X, Calendar, Phone, ArrowRight, UserCheck } from 'lucide-react';
+import { CLINIC_CONFIG } from '../../config/clinicConfig';
 
 interface HeaderProps {
   onOpenAppointmentModal: () => void;
@@ -20,7 +20,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
@@ -29,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Meet the Dentists', path: '/team' },
+    { name: 'Doctor Profile', path: '/team' },
     { name: 'Patient Info', path: '/patient-info' },
     { name: 'Testimonials', path: '/testimonials' },
     { name: 'Contact', path: '/contact' },
@@ -42,72 +41,79 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
 
   return (
     <header className={`sticky top-0 z-40 transition-all duration-300 ${
-      isScrolled ? 'bg-surface/95 backdrop-blur-md shadow-sm border-b border-border py-3' : 'bg-surface border-b border-border py-4'
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200 py-3' : 'bg-white border-b border-slate-200 py-3.5'
     }`}>
-      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
           {/* Logo / Wordmark */}
-          <Link to="/" className="flex items-center gap-3 group focus:outline-none" aria-label="Aurelia Dental Studio Homepage">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-primary flex items-center justify-center text-accent shadow-sm group-hover:bg-primary-light transition-colors duration-200">
-              {/* Elegant Leaf/Tooth SVG Symbol */}
-              <svg viewBox="0 0 40 40" className="w-6 h-6 fill-current">
-                <path d="M20 6 C12 6, 8 13, 8 20 C8 27, 12 34, 18 36 C19 32, 20 28, 20 24 C20 28, 21 32, 22 36 C28 34, 32 27, 32 20 C32 13, 28 6, 20 6 Z M20 12 C24 16, 26 20, 26 23 C24 23, 21 21, 20 18 C19 21, 16 23, 14 23 C14 20, 16 16, 20 12 Z" />
-              </svg>
+          <Link to="/" className="flex items-center gap-3 group focus:outline-none" aria-label="XYZ Dental Clinic Homepage">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-800 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-teal-700 transition-colors duration-200">
+              XYZ
             </div>
             <div>
-              <span className="font-serif-heading text-xl sm:text-2xl font-bold tracking-tight text-primary block leading-none">
-                Aurelia
+              <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 block leading-none">
+                {CLINIC_CONFIG.clinicName}
               </span>
-              <span className="text-[10px] sm:text-xs font-medium tracking-[0.2em] text-text-secondary uppercase block mt-1">
-                Dental Studio • Surat
+              <span className="text-[10px] sm:text-xs font-semibold tracking-wider text-teal-800 uppercase block mt-1">
+                {CLINIC_CONFIG.doctorSpecialization} • {CLINIC_CONFIG.city}
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 xl:gap-8" role="navigation" aria-label="Main Navigation">
+          <nav className="hidden lg:flex items-center gap-6 xl:gap-7" role="navigation" aria-label="Main Navigation">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors duration-150 py-1 relative ${
+                className={`text-xs font-semibold uppercase tracking-wider transition-colors duration-150 py-1 relative ${
                   isActive(link.path)
-                    ? 'text-primary font-semibold'
-                    : 'text-text-secondary hover:text-primary'
+                    ? 'text-teal-800 font-bold'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent rounded-full animate-fade-in" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-teal-700 rounded-full animate-fade-in" />
                 )}
               </Link>
             ))}
           </nav>
 
           {/* Action CTAs & Mobile Hamburger */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Discreet Doctor Portal link */}
+            <Link
+              to="/doctor/login"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-teal-800 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition border border-transparent hover:border-slate-200"
+              title="Access Doctor Administrative Portal"
+            >
+              <UserCheck className="w-3.5 h-3.5 text-teal-700" />
+              <span className="hidden sm:inline">Doctor Portal</span>
+            </Link>
+
             <a
-              href={`tel:${CLINIC_INFO.phone}`}
-              className="hidden sm:flex items-center gap-2 text-xs font-semibold text-primary hover:text-primary-light px-3 py-2 rounded-full border border-border hover:border-primary transition-all duration-200"
+              href={`tel:${CLINIC_CONFIG.contactPhone}`}
+              className="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-slate-700 hover:text-teal-800 px-3 py-2 rounded-xl border border-slate-200 hover:border-teal-300 transition"
               aria-label="Direct clinic phone line"
             >
-              <Phone className="w-3.5 h-3.5 text-accent" />
-              <span>Call Desk</span>
+              <Phone className="w-3.5 h-3.5 text-teal-700" />
+              <span>{CLINIC_CONFIG.contactPhone}</span>
             </a>
 
             <button
               onClick={onOpenAppointmentModal}
-              className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-text-inverse text-xs sm:text-sm font-medium px-4 sm:px-5 py-2.5 rounded-pill shadow-btn hover:shadow-green transition-all duration-200 active:scale-95"
+              className="inline-flex items-center gap-2 bg-teal-800 hover:bg-teal-900 text-white text-xs sm:text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition active:scale-95 cursor-pointer uppercase tracking-wider"
             >
-              <Calendar className="w-4 h-4 text-accent" />
-              <span>Request Appointment</span>
+              <Calendar className="w-3.5 h-3.5" />
+              <span>Book Visit</span>
             </button>
 
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-text-primary hover:bg-bg-soft transition-colors focus:outline-none"
+              className="lg:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
               aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Navigation Menu'}
               aria-expanded={mobileMenuOpen}
             >
@@ -119,16 +125,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-full bg-surface/98 backdrop-blur-lg border-b border-border shadow-lg transition-all animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden fixed inset-x-0 top-full bg-white/98 backdrop-blur-lg border-b border-slate-200 shadow-xl transition-all animate-in slide-in-from-top-2 duration-200">
           <div className="px-5 pt-3 pb-6 space-y-2 max-w-md mx-auto">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-base font-medium transition-colors ${
+                className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
                   isActive(link.path)
-                    ? 'bg-bg-muted text-primary font-semibold'
-                    : 'text-text-secondary hover:text-primary hover:bg-bg-soft'
+                    ? 'bg-teal-50 text-teal-800'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
               >
                 <span>{link.name}</span>
@@ -136,24 +142,35 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
               </Link>
             ))}
 
-            <div className="pt-4 border-t border-border mt-3 space-y-2">
+            <Link
+              to="/doctor/login"
+              className="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold text-teal-800 bg-teal-50/60 border border-teal-200/60"
+            >
+              <div className="flex items-center gap-2">
+                <UserCheck className="w-4 h-4" />
+                <span>Doctor Administration Portal</span>
+              </div>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <div className="pt-4 border-t border-slate-200 mt-3 space-y-2">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenAppointmentModal();
                 }}
-                className="w-full flex items-center justify-center gap-2 bg-primary text-text-inverse py-3 rounded-pill font-medium text-sm shadow-btn"
+                className="w-full flex items-center justify-center gap-2 bg-teal-800 text-white py-3 rounded-xl font-semibold text-sm shadow-sm cursor-pointer"
               >
-                <Calendar className="w-4 h-4 text-accent" />
-                <span>Request Appointment</span>
+                <Calendar className="w-4 h-4" />
+                <span>Book Appointment</span>
               </button>
 
               <a
-                href={`tel:${CLINIC_INFO.phone}`}
-                className="w-full flex items-center justify-center gap-2 border border-primary text-primary py-2.5 rounded-pill font-medium text-sm"
+                href={`tel:${CLINIC_CONFIG.contactPhone}`}
+                className="w-full flex items-center justify-center gap-2 border border-slate-200 text-slate-800 py-2.5 rounded-xl font-semibold text-xs"
               >
-                <Phone className="w-4 h-4 text-accent" />
-                <span>Call Clinic: {CLINIC_INFO.phone}</span>
+                <Phone className="w-3.5 h-3.5 text-teal-700" />
+                <span>Call Clinic: {CLINIC_CONFIG.contactPhone}</span>
               </a>
             </div>
           </div>
@@ -162,4 +179,3 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAppointmentModal }) => {
     </header>
   );
 };
-

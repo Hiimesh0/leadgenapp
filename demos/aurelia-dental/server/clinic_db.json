@@ -1,0 +1,203 @@
+{
+  "doctors": [
+    {
+      "id": "doc-001",
+      "name": "Dr. XYZ",
+      "email": "kanthariyahimesh@gmail.com",
+      "password_hash": "$2b$10$rUPo6I6isGe2PiJO.EzpC.sYW6nhHnhpUpwLDCnrPgaDfy3eQ48Oq",
+      "role": "Chief Dental Specialist",
+      "created_at": "2026-11-03T09:37:26.622Z"
+    },
+    {
+      "id": "doc-002",
+      "name": "Dr. XYZ",
+      "email": "doctor@xyzdental.com",
+      "password_hash": "$2b$10$rUPo6I6isGe2PiJO.EzpC.sYW6nhHnhpUpwLDCnrPgaDfy3eQ48Oq",
+      "role": "Chief Dental Specialist",
+      "created_at": "2026-11-03T09:37:26.622Z"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "apt-001",
+      "appointment_ref": "APT-2026-001",
+      "patient_name": "Aarav Patel (Demo Patient)",
+      "phone": "9825123456",
+      "email": "aarav.demo@example.com",
+      "service_id": "cosmetic-dentistry",
+      "service_name": "Cosmetic Smile Design & Veneers (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-03",
+      "preferred_time": "10:30 AM",
+      "notes": "Interested in digital smile makeover preview and veneers consultation.",
+      "status": "Confirmed",
+      "created_at": "2026-11-01T09:37:26.623Z",
+      "updated_at": "2026-11-02T09:37:26.623Z"
+    },
+    {
+      "id": "apt-002",
+      "appointment_ref": "APT-2026-002",
+      "patient_name": "Meera Shah (Demo Patient)",
+      "phone": "9924567890",
+      "email": "meera.demo@example.com",
+      "service_id": "root-canal",
+      "service_name": "Gentle Micro-Endodontics (Root Canal - XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-03",
+      "preferred_time": "02:00 PM",
+      "notes": "Mild sensitivity in upper right molar. Prefers single-sitting if possible.",
+      "status": "Pending",
+      "created_at": "2026-11-03T08:37:26.623Z",
+      "updated_at": "2026-11-03T08:37:26.623Z"
+    },
+    {
+      "id": "apt-003",
+      "appointment_ref": "APT-2026-003",
+      "patient_name": "Rajesh Desai (Demo Patient)",
+      "phone": "9712345678",
+      "email": "rajesh.demo@example.com",
+      "service_id": "dental-implants",
+      "service_name": "Permanent Dental Implants (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-04",
+      "preferred_time": "11:00 AM",
+      "notes": "Needs 3D CBCT bone scan evaluation for lower missing tooth.",
+      "status": "Confirmed",
+      "created_at": "2026-11-02T09:37:26.623Z",
+      "updated_at": "2026-11-02T21:37:26.623Z"
+    },
+    {
+      "id": "apt-004",
+      "appointment_ref": "APT-2026-004",
+      "patient_name": "Priyanka Mehta (Demo Patient)",
+      "phone": "9898012345",
+      "email": "priyanka.demo@example.com",
+      "service_id": "orthodontics-aligners",
+      "service_name": "Clear Aligners & Orthodontics (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-05",
+      "preferred_time": "04:30 PM",
+      "notes": "Consultation for invisible clear aligners instead of metal braces.",
+      "status": "Pending",
+      "created_at": "2026-11-03T05:37:26.623Z",
+      "updated_at": "2026-11-03T05:37:26.623Z"
+    },
+    {
+      "id": "apt-005",
+      "appointment_ref": "APT-2026-005",
+      "patient_name": "Ketan Vora (Demo Patient)",
+      "phone": "9879112233",
+      "email": "ketan.demo@example.com",
+      "service_id": "preventive-care",
+      "service_name": "Preventive Hygiene & Guided Biofilm Therapy (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-02",
+      "preferred_time": "09:30 AM",
+      "notes": "Routine 6-monthly cleaning and dental hygiene checkup.",
+      "status": "Completed",
+      "created_at": "2026-10-27",
+      "updated_at": "2026-11-02"
+    },
+    {
+      "id": "apt-006",
+      "appointment_ref": "APT-2026-006",
+      "patient_name": "Bhavik Jariwala (Demo Patient)",
+      "phone": "9723001122",
+      "email": "bhavik.demo@example.com",
+      "service_id": "teeth-whitening",
+      "service_name": "Laser Teeth Whitening (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-02",
+      "preferred_time": "05:00 PM",
+      "notes": "Pre-wedding teeth whitening consultation.",
+      "status": "Cancelled",
+      "created_at": "2026-10-27",
+      "updated_at": "2026-11-02"
+    },
+    {
+      "id": "apt-007",
+      "appointment_ref": "APT-2026-007",
+      "patient_name": "Sneha Choksi (Demo Patient)",
+      "phone": "9824445566",
+      "email": "sneha.demo@example.com",
+      "service_id": "restorative-crowns",
+      "service_name": "Metal-Free Zirconia Crowns & Inlays (XYZ)",
+      "doctor_name": "Dr. XYZ",
+      "preferred_date": "2026-11-05",
+      "preferred_time": "03:00 PM",
+      "notes": "Rescheduled from last week due to patient travel.",
+      "status": "Rescheduled",
+      "created_at": "2026-10-27",
+      "updated_at": "2026-11-03T09:37:26.622Z"
+    }
+  ],
+  "appointment_history": [
+    {
+      "id": "hist-apt-001-init",
+      "appointment_ref": "APT-2026-001",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-01T09:37:26.623Z",
+      "note": "Appointment request submitted via website booking form."
+    },
+    {
+      "id": "hist-apt-001-conf",
+      "appointment_ref": "APT-2026-001",
+      "previous_status": "Pending",
+      "new_status": "Confirmed",
+      "changed_by": "Dr. XYZ",
+      "changed_at": "2026-11-02T09:37:26.623Z",
+      "note": "Status transitioned to Confirmed after clinic slot confirmation."
+    },
+    {
+      "id": "hist-apt-002-init",
+      "appointment_ref": "APT-2026-002",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-03T08:37:26.623Z",
+      "note": "Appointment request submitted via website booking form."
+    },
+    {
+      "id": "hist-apt-003-init",
+      "appointment_ref": "APT-2026-003",
+      "previous_status": null,
+      "new_status": "Pending",
+      "changed_by": "Patient (Online Website)",
+      "changed_at": "2026-11-02T09:37:26.623Z",
+      "note": "Appointment request submitted via website booking form."
+    },
+    {
+      "id": "hist-apt-003-conf",
+      "appointment_ref": "APT-2026-003",
+      "previous_status": "Pending",
+      "new_status": "Confirmed",
+      "changed_by": "Dr. XYZ",
+      "changed_at": "2026-11-02T21:37:26.623Z",
+      "note": "Status transitioned to Confirmed during clinic schedule review."
+    }
+  ],
+  "enquiries": [
+    {
+      "id": "enq-001",
+      "name": "Hitesh Contractor (Demo)",
+      "phone": "9825099887",
+      "email": "hitesh.demo@example.com",
+      "subject": "Cosmetic / Veneers",
+      "message": "Hello Dr. XYZ, I would like to know if trial smile previews are done on the same day for porcelain veneers?",
+      "status": "Unread",
+      "created_at": "2026-11-03T07:37:26.623Z"
+    },
+    {
+      "id": "enq-002",
+      "name": "Radhika Dalal (Demo)",
+      "phone": "9978112233",
+      "email": "radhika.demo@example.com",
+      "subject": "Dental Implants",
+      "message": "Does your clinic have computer-guided 3D flapless implant surgery available for senior citizens?",
+      "status": "Reviewed",
+      "created_at": "2026-11-02T09:37:26.623Z"
+    }
+  ]
+}

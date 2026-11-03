@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, Award, GraduationCap, Globe, CheckCircle2, Heart } from 'lucide-react';
+import { Calendar, Award, GraduationCap, Globe, CheckCircle2, Heart, ShieldAlert } from 'lucide-react';
 import { DOCTORS } from '../data/clinicData';
+import { CLINIC_CONFIG } from '../config/clinicConfig';
 
 interface TeamPageProps {
   onOpenAppointmentModal: (serviceId?: string) => void;
@@ -9,6 +10,15 @@ interface TeamPageProps {
 export const TeamPage: React.FC<TeamPageProps> = ({ onOpenAppointmentModal }) => {
   return (
     <div className="min-h-screen bg-bg">
+      {/* Discreet Compulsory Demo Notice */}
+      <div className="bg-amber-500/10 border-b border-amber-200/80 px-4 py-2 text-xs text-amber-900 text-center font-medium">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-2">
+          <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0" />
+          <span>
+            <strong>DEMO NOTICE:</strong> {CLINIC_CONFIG.demoNotice}
+          </span>
+        </div>
+      </div>
       
       {/* Header Banner */}
       <section className="pt-16 pb-14 bg-bg-soft border-b border-border text-center">
