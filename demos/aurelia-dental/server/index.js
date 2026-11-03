@@ -9,7 +9,7 @@ import { wahaService, normalizeIndianPhone } from './waha.js';
 initDb();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 const JWT_SECRET = process.env.JWT_SECRET || 'xyz-dental-clinic-secret-key-2026';
 
 app.use(cors({
