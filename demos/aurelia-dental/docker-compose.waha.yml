@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   waha:
-    image: devlikeappro/waha:latest
+    image: devlikeapro/waha:latest
     container_name: waha_dental_api
     restart: unless-stopped
     ports:
@@ -20,3 +20,4 @@ services:
 volumes:
   waha_sessions:
     driver: local
+

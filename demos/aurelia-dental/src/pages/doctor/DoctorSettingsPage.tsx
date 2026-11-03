@@ -164,7 +164,7 @@ export const DoctorSettingsPage: React.FC = () => {
             <span className="text-[10px] text-slate-400">Port: 3000</span>
           </div>
           <pre className="p-2.5 bg-slate-950 rounded-lg text-[11px] font-mono text-emerald-300 overflow-x-auto select-all">
-            docker run -it --rm -p 3000:3000/tcp --name waha devlikeappro/waha
+            docker run -it --rm -p 3000:3000/tcp --name waha devlikeapro/waha
           </pre>
           <p className="text-[11px] text-slate-400">
             Or launch with Docker Compose: <code className="text-slate-300">docker compose -f docker-compose.waha.yml up -d</code>.

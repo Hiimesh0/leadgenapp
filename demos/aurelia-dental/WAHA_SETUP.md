@@ -43,7 +43,7 @@ docker compose -f docker-compose.waha.yml up -d
 ### Option B: Using Docker Run Directly
 
 ```bash
-docker run -it --rm -p 3000:3000/tcp --name waha devlikeappro/waha
+docker run -it --rm -p 3000:3000/tcp --name waha devlikeapro/waha
 ```
 
 Once running:
@@ -108,3 +108,4 @@ _(DEMO NOTICE: All doctor, clinic, and appointment details are fictional and gen
   - If a message fails (e.g. WAHA was offline or network timeout), the doctor can click the **Retry WhatsApp** icon to resend without creating duplicate appointments.
 - **Audit History Modal:**
   - Full delivery timeline and specific WAHA error messages recorded in `appointment_history`.
+
