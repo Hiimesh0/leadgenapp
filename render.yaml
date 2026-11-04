@@ -1,6 +1,6 @@
 services:
   # -------------------------------------------------------------
-  # 1. Existing Clinic Demo Backend
+  # 1. Existing Clinic Demo Backend (100% Free Tier)
   # -------------------------------------------------------------
   - type: web
     name: xyz-dental-backend
@@ -25,20 +25,15 @@ services:
         value: default
 
   # -------------------------------------------------------------
-  # 2. WAHA (WhatsApp HTTP API) 24/7 Cloud Engine
+  # 2. WAHA (WhatsApp HTTP API) Engine (100% Free Tier - Ephemeral)
   # -------------------------------------------------------------
   - type: web
     name: waha-whatsapp-service
     env: image
     image:
       url: devlikeapro/waha:latest
-    plan: starter # Starter plan recommended for Chromium Puppeteer stability and Persistent Disk
-    region: singapore
+    plan: free
     healthCheckPath: /api/server/version
-    disk:
-      name: waha-sessions
-      mountPath: /app/.sessions
-      sizeGB: 1
     envVars:
       - key: PORT
         value: "3000"
@@ -56,28 +51,23 @@ services:
         value: WEBJS
 
   # -------------------------------------------------------------
-  # 3. Standalone Clinic WhatsApp Outreach Campaign Application
+  # 3. Standalone Clinic WhatsApp Outreach Campaign Application (100% Free Tier)
   # -------------------------------------------------------------
   - type: web
     name: clinic-outreach-campaign
     runtime: node
-    plan: starter # Starter plan for SQLite database persistence
-    region: singapore
+    plan: free
     rootDir: clinic-outreach-campaign
     buildCommand: npm install
     startCommand: node backend/server.js
     healthCheckPath: /api/health
-    disk:
-      name: outreach-db
-      mountPath: /var/data/outreach
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: APP_SECRET
         generateValue: true
       - key: DB_PATH
-        value: /var/data/outreach/campaigns.db
+        value: database/campaigns.db
       - key: ADMIN_USERNAME
         value: admin
       - key: ADMIN_PASSWORD

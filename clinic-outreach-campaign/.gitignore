@@ -11,6 +11,7 @@ pnpm-debug.log*
 
 # Databases
 database/*.db
+database/*.db-*
 database/*.db-journal
 
 # Temporary uploads and logs

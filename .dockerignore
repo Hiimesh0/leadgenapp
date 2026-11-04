@@ -1,0 +1,12 @@
+node_modules
+.git
+.github
+*.log
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+.env
+.env.local
+clinic-outreach-campaign/database/*.db
+clinic-outreach-campaign/uploads/temp_*
