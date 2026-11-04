@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic WhatsApp Outreach Campaign Manager</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor / Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b'
+            },
+            wa: {
+              green: '#25D366',
+              dark: '#128C7E',
+              teal: '#075E54'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
+
+  <!-- ================= AUTH LOGIN OVERLAY ================= -->
+  <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 border border-slate-100">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md">
+          <i data-lucide="send" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Clinic Outreach</h2>
+          <p class="text-xs text-slate-500">WhatsApp Campaign Control Center</p>
+        </div>
+      </div>
+
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 mb-6 text-xs text-emerald-800">
+        <p class="font-semibold mb-1">🔒 Admin Authentication Required</p>
+        <p>Default credentials: <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-emerald-300">admin</span> / <span class="font-mono bg-white px-1.5 py-0.5 rounded border border-emerald-300">AdminOutreach@2026</span></p>
+      </div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Username</label>
+          <input type="text" id="login-username" value="admin" required
+                 class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Password</label>
+          <input type="password" id="login-password" value="AdminOutreach@2026" required
+                 class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm">
+        </div>
+        <div id="login-error" class="hidden text-xs text-red-600 font-medium"></div>
+        <button type="submit" id="login-btn"
+                class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold text-sm transition shadow-sm hover:shadow flex items-center justify-center gap-2">
+          <span>Sign In to Dashboard</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-sm">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold text-slate-900 tracking-tight">Clinic Outreach Campaign</h1>
+            <span class="px-2 py-0.5 text-[10px] font-semibold tracking-wide bg-slate-100 text-slate-600 rounded-full border border-slate-200">v1.0 Standalone</span>
+          </div>
+          <p class="text-xs text-slate-500">Autonomous WhatsApp Campaign & Outreach Engine</p>
+        </div>
+      </div>
+
+      <!-- WAHA Health Pill & Actions -->
+      <div class="flex items-center gap-4">
+        <!-- WAHA Connection Status -->
+        <div id="waha-status-badge" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-200 transition" title="Click to view WAHA diagnostics">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" id="waha-indicator"></span>
+          <span id="waha-status-label" class="text-slate-700">Checking WAHA...</span>
+        </div>
+
+        <div class="h-6 w-px bg-slate-200"></div>
+
+        <!-- Admin user profile & logout -->
+        <div class="flex items-center gap-3">
+          <div class="text-right hidden sm:block">
+            <p id="admin-display-name" class="text-xs font-bold text-slate-800">Admin</p>
+            <p class="text-[10px] text-emerald-600 font-semibold">Active Session</p>
+          </div>
+          <button id="logout-btn" class="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Log out">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex space-x-6 border-b border-transparent -mb-px text-xs font-semibold uppercase tracking-wider">
+        <button data-tab="tab-queue" class="nav-tab py-3 border-b-2 border-emerald-600 text-emerald-700 flex items-center gap-2">
+          <i data-lucide="play-circle" class="w-4 h-4"></i>
+          <span>Campaign Queue</span>
+        </button>
+        <button data-tab="tab-contacts" class="nav-tab py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Contacts & Import</span>
+        </button>
+        <button data-tab="tab-editor" class="nav-tab py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-4 h-4"></i>
+          <span>Message Editor</span>
+        </button>
+        <button data-tab="tab-test" class="nav-tab py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Test & Verify</span>
+        </button>
+        <button data-tab="tab-optouts" class="nav-tab py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+          <i data-lucide="user-x" class="w-4 h-4"></i>
+          <span>Opt-Out Registry</span>
+        </button>
+        <button data-tab="tab-history" class="nav-tab py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-700 flex items-center gap-2">
+          <i data-lucide="history" class="w-4 h-4"></i>
+          <span>History & Export</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT AREA ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full">
+
+    <!-- ================= TAB 1: CAMPAIGN QUEUE & DASHBOARD ================= -->
+    <div id="tab-queue" class="tab-pane space-y-6">
+
+      <!-- Active Queue Control Bar -->
+      <div id="queue-banner" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div class="space-y-1">
+            <div class="flex items-center gap-3">
+              <span id="queue-state-badge" class="px-2.5 py-1 text-xs font-bold rounded-full bg-slate-100 text-slate-700 uppercase tracking-wide">
+                Queue Idle
+              </span>
+              <h2 id="active-campaign-title" class="text-xl font-bold text-slate-900">No active campaign in progress</h2>
+            </div>
+            <p id="queue-rate-limit-warning" class="text-xs text-amber-700 hidden font-medium flex items-center gap-1.5 mt-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+              <span id="queue-rate-limit-text"></span>
+            </p>
+          </div>
+
+          <!-- Countdown & Live Controls -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Next Message Countdown Box -->
+            <div id="countdown-box" class="hidden flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-mono">
+              <i data-lucide="clock" class="w-4 h-4 text-emerald-400 animate-spin"></i>
+              <span>Next message in: <strong id="countdown-timer" class="text-emerald-400 text-sm">--</strong>s</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <button id="btn-create-campaign-modal" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm hover:shadow flex items-center gap-2 transition">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Create New Campaign</span>
+            </button>
+            <button id="btn-start-queue" class="hidden px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm hover:shadow flex items-center gap-2 transition">
+              <i data-lucide="play" class="w-4 h-4"></i>
+              <span>Start Queue</span>
+            </button>
+            <button id="btn-pause-queue" class="hidden px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs rounded-xl shadow-sm hover:shadow flex items-center gap-2 transition">
+              <i data-lucide="pause" class="w-4 h-4"></i>
+              <span>Pause Queue</span>
+            </button>
+            <button id="btn-resume-queue" class="hidden px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm hover:shadow flex items-center gap-2 transition">
+              <i data-lucide="play" class="w-4 h-4"></i>
+              <span>Resume Queue</span>
+            </button>
+            <button id="btn-cancel-queue" class="hidden px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded-xl shadow-sm hover:shadow flex items-center gap-2 transition">
+              <i data-lucide="square" class="w-4 h-4"></i>
+              <span>Cancel Campaign</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Counter Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-slate-100">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Total Recipients</p>
+            <p id="stat-total" class="text-xl font-extrabold text-slate-900 mt-1">0</p>
+          </div>
+          <div class="bg-blue-50/50 p-3 rounded-xl border border-blue-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-blue-700">Pending</p>
+            <p id="stat-pending" class="text-xl font-extrabold text-blue-900 mt-1">0</p>
+          </div>
+          <div class="bg-amber-50/50 p-3 rounded-xl border border-amber-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-amber-700">Sending</p>
+            <p id="stat-sending" class="text-xl font-extrabold text-amber-900 mt-1">0</p>
+          </div>
+          <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Sent to WAHA</p>
+            <p id="stat-sent" class="text-xl font-extrabold text-emerald-900 mt-1">0</p>
+          </div>
+          <div class="bg-red-50/50 p-3 rounded-xl border border-red-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-red-700">Failed</p>
+            <p id="stat-failed" class="text-xl font-extrabold text-red-900 mt-1">0</p>
+          </div>
+          <div class="bg-purple-50/50 p-3 rounded-xl border border-purple-100">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-purple-700">Skipped / Opt-Out</p>
+            <p id="stat-skipped" class="text-xl font-extrabold text-purple-900 mt-1">0</p>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mt-4">
+          <div class="flex justify-between text-xs text-slate-500 mb-1">
+            <span>Campaign Delivery Progress</span>
+            <span id="stat-percentage" class="font-semibold text-slate-700">0%</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+            <div id="stat-progress-bar" class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Delivery Feed -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">Live Recipient Activity Feed</h3>
+            <p class="text-xs text-slate-500">Real-time status updates per clinic recipient</p>
+          </div>
+          <button id="btn-export-current-campaign" class="text-xs font-semibold text-slate-600 hover:text-emerald-700 flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 rounded-lg border border-slate-200 transition">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Export Campaign CSV</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto max-h-96">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 uppercase tracking-wider sticky top-0">
+              <tr>
+                <th class="py-2.5 px-4">Clinic Name</th>
+                <th class="py-2.5 px-4">Phone Number</th>
+                <th class="py-2.5 px-4">Status</th>
+                <th class="py-2.5 px-4">WAHA Message ID</th>
+                <th class="py-2.5 px-4">Timestamp</th>
+                <th class="py-2.5 px-4">Diagnostic Notes</th>
+              </tr>
+            </thead>
+            <tbody id="live-recipients-tbody" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="6" class="text-center py-8 text-slate-400">
+                  Select or start a campaign above to view recipient dispatch progress.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 2: CONTACTS & IMPORT ================= -->
+    <div id="tab-contacts" class="tab-pane hidden space-y-6">
+
+      <!-- Upload Banner & Actions -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Clinic Contact Directory</h2>
+            <p class="text-xs text-slate-500">Import clinic leads from CSV/Excel, validate phone numbers, and manage outreach permissions.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Load Bundled 50 Clinics CSV Button -->
+            <button id="btn-load-bundled-csv" class="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-xl border border-indigo-200 transition flex items-center gap-2">
+              <i data-lucide="file-spreadsheet" class="w-4 h-4 text-indigo-600"></i>
+              <span>Import Bundled 50 Clinics CSV</span>
+            </button>
+
+            <!-- Custom File Upload Button -->
+            <label class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl cursor-pointer transition flex items-center gap-2 shadow-sm">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span>Upload CSV / Excel</span>
+              <input type="file" id="file-upload-input" accept=".csv, .xlsx, .xls" class="hidden">
+            </label>
+
+            <!-- Export Contacts CSV -->
+            <button id="btn-export-contacts" class="px-3 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 transition flex items-center gap-1.5">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Export All</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter and Search Row -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-slate-100">
+          <div class="relative flex-1 max-w-md">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+            <input type="text" id="contact-search-input" placeholder="Search clinic name or phone number..."
+                   class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-500 font-medium">Filter:</span>
+            <button data-filter="all" class="contact-filter-btn px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 font-semibold">All Contacts</button>
+            <button data-filter="active" class="contact-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Active Only</button>
+            <button data-filter="opted_out" class="contact-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">Opted Out</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contacts Table -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 uppercase tracking-wider">
+              <tr>
+                <th class="py-3 px-4">#</th>
+                <th class="py-3 px-4">Clinic Name</th>
+                <th class="py-3 px-4">Raw Phone</th>
+                <th class="py-3 px-4">Normalized (E.164)</th>
+                <th class="py-3 px-4">Chat ID</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-tbody" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="7" class="text-center py-10 text-slate-400">Loading contacts...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 3: MESSAGE EDITOR & PREVIEW ================= -->
+    <div id="tab-editor" class="tab-pane hidden space-y-6">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left: Message Composition Form (7 cols) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-slate-900">WhatsApp Message Template</h2>
+              <p class="text-xs text-slate-500">Compose outreach message with live preview and syntax support</p>
+            </div>
+            <button id="btn-reset-default-msg" class="text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span>Reset to Default</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-600 space-y-1.5">
+            <p class="font-semibold text-slate-700">Formatting & Personalization Syntax:</p>
+            <div class="flex flex-wrap gap-2 text-[11px]">
+              <span class="bg-white px-2 py-0.5 rounded border border-slate-200 font-mono">*bold text*</span>
+              <span class="bg-white px-2 py-0.5 rounded border border-slate-200 font-mono">_italic text_</span>
+              <span class="bg-white px-2 py-0.5 rounded border border-slate-200 font-mono">~strikethrough~</span>
+              <span class="bg-white px-2 py-0.5 rounded border border-slate-200 font-mono text-emerald-700 font-bold">{{clinic_name}}</span>
+            </div>
+          </div>
+
+          <div>
+            <textarea id="message-editor-textarea" rows="12"
+                      class="w-full p-4 rounded-xl border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent leading-relaxed text-slate-800"
+                      placeholder="Type your WhatsApp message here..."></textarea>
+            <div class="flex justify-between items-center text-xs text-slate-400 mt-2">
+              <span>Supports multi-line line breaks and URLs</span>
+              <span>Characters: <strong id="char-counter" class="text-slate-700 font-bold">0</strong></span>
+            </div>
+          </div>
+
+          <!-- Sample Clinic Name for Preview -->
+          <div class="pt-2 flex items-center gap-3">
+            <label class="text-xs font-semibold text-slate-600">Preview Clinic Name:</label>
+            <input type="text" id="preview-clinic-name-input" value="XYZ Dental & Implant Clinic"
+                   class="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <!-- Right: Authentic WhatsApp Mobile Preview (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <!-- Mobile Frame -->
+          <div class="w-full max-w-sm bg-slate-900 rounded-[36px] p-3 shadow-2xl border-4 border-slate-800">
+            <!-- Notch / Camera bar -->
+            <div class="h-4 flex items-center justify-center mb-1">
+              <div class="w-16 h-3 bg-slate-800 rounded-full"></div>
+            </div>
+
+            <!-- WhatsApp Chat Window -->
+            <div class="rounded-[28px] overflow-hidden flex flex-col bg-white">
+              <!-- WhatsApp Header -->
+              <div class="bg-[#075E54] text-white p-3 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-slate-200 text-[#075E54] font-bold flex items-center justify-center text-xs">
+                    <i data-lucide="user" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <p id="preview-header-clinic" class="text-xs font-bold truncate max-w-[170px]">XYZ Dental</p>
+                    <p class="text-[9px] text-emerald-200">Online</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3 text-white/80">
+                  <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                  <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
+                </div>
+              </div>
+
+              <!-- Chat Message Bubble Area -->
+              <div class="wa-preview-screen p-3 flex flex-col justify-end space-y-2">
+                <!-- Outgoing WhatsApp bubble -->
+                <div class="wa-bubble p-3 max-w-[92%] self-end text-xs text-slate-800 space-y-1">
+                  <div id="wa-bubble-content" class="leading-relaxed whitespace-pre-wrap"></div>
+                  <div class="flex items-center justify-end gap-1 text-[10px] text-slate-500 mt-1">
+                    <span id="wa-bubble-time">10:30 AM</span>
+                    <!-- Blue double tick -->
+                    <span class="text-blue-500 font-bold">✓✓</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input bar simulator -->
+              <div class="bg-slate-100 p-2 border-t border-slate-200 flex items-center gap-2 text-slate-400">
+                <i data-lucide="smile" class="w-4 h-4"></i>
+                <div class="flex-1 bg-white rounded-full py-1 px-3 text-[10px] text-slate-400">Message</div>
+                <div class="w-6 h-6 rounded-full bg-[#128C7E] text-white flex items-center justify-center">
+                  <i data-lucide="mic" class="w-3 h-3"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 4: TEST & VERIFY ================= -->
+    <div id="tab-test" class="tab-pane hidden space-y-6">
+
+      <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 shadow-sm space-y-6">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-lg font-bold text-slate-900">Pre-Flight Test Message Verification</h2>
+          </div>
+          <p class="text-xs text-slate-500 leading-relaxed">
+            WhatsApp campaign safety protocol: You must dispatch a real test message to your own personal phone number through the existing WAHA integration and verify its formatting before any campaign can be launched.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Your Administrator WhatsApp Number (Indian Format)</label>
+            <div class="flex items-center gap-2">
+              <span class="px-3 py-2.5 bg-slate-100 border border-slate-300 rounded-lg text-xs font-mono text-slate-600 font-bold">+91</span>
+              <input type="text" id="test-phone-input" placeholder="e.g. 9825099409"
+                     class="flex-1 px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Accepts 10-digit mobile number starting with 6-9.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Sample Clinic Name for Test Token</label>
+            <input type="text" id="test-clinic-name-input" value="Dr. Test Clinic"
+                   class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          </div>
+
+          <button id="btn-send-test-msg" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Send Test WhatsApp Message via WAHA</span>
+          </button>
+        </div>
+
+        <!-- WAHA Response Box -->
+        <div id="test-response-container" class="hidden space-y-3 pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-700 flex items-center gap-2">
+              <i data-lucide="terminal" class="w-4 h-4 text-slate-500"></i>
+              <span>Live WAHA API Gateway Response</span>
+            </span>
+            <span id="test-result-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold"></span>
+          </div>
+
+          <pre id="test-response-pre" class="p-4 bg-slate-900 text-emerald-400 text-xs font-mono rounded-xl overflow-x-auto max-h-48 border border-slate-800"></pre>
+
+          <!-- Administrator Confirmation Checkbox -->
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 space-y-3">
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" id="test-confirm-checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+              <div class="text-xs text-emerald-900 leading-normal">
+                <span class="font-bold">I confirm that I received the test WhatsApp message</span> on my device, verified that line breaks, bold formatting, links, and clinic name tokens appear correctly, and approve this template for campaign sending.
+              </div>
+            </label>
+
+            <button id="btn-confirm-test-verified" disabled
+                    class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold text-xs rounded-lg transition">
+              Mark Test as Verified & Unlock Campaign Launch
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 5: OPT-OUT REGISTRY ================= -->
+    <div id="tab-optouts" class="tab-pane hidden space-y-6">
+
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Opt-Out & Do Not Contact Registry</h2>
+            <p class="text-xs text-slate-500">Contacts listed here will be strictly excluded from all WhatsApp outreach campaigns.</p>
+          </div>
+          <button id="btn-export-optouts" class="text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 px-3 py-2 rounded-xl transition flex items-center gap-1.5">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+            <span>Export Opt-Out List CSV</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 uppercase tracking-wider">
+              <tr>
+                <th class="py-2.5 px-4">Clinic Name</th>
+                <th class="py-2.5 px-4">Phone Number</th>
+                <th class="py-2.5 px-4">Reason / Notes</th>
+                <th class="py-2.5 px-4">Opted Out On</th>
+                <th class="py-2.5 px-4 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="optouts-tbody" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="5" class="text-center py-8 text-slate-400">Loading opt-out registry...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 6: CAMPAIGN HISTORY ================= -->
+    <div id="tab-history" class="tab-pane hidden space-y-6">
+
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-base font-bold text-slate-900">Campaign Execution History</h2>
+            <p class="text-xs text-slate-500">Historical record of all outreach campaigns and audit logs</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 uppercase tracking-wider">
+              <tr>
+                <th class="py-2.5 px-4">ID</th>
+                <th class="py-2.5 px-4">Campaign Name</th>
+                <th class="py-2.5 px-4">Status</th>
+                <th class="py-2.5 px-4">Total</th>
+                <th class="py-2.5 px-4">Sent</th>
+                <th class="py-2.5 px-4">Failed</th>
+                <th class="py-2.5 px-4">Skipped</th>
+                <th class="py-2.5 px-4">Created</th>
+                <th class="py-2.5 px-4 text-right">Export</th>
+              </tr>
+            </thead>
+            <tbody id="history-campaigns-tbody" class="divide-y divide-slate-100">
+              <tr>
+                <td colspan="9" class="text-center py-8 text-slate-400">No campaigns recorded yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Audit Activity Log -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 mb-3">Security & Compliance Audit Trail</h3>
+        <div class="overflow-x-auto max-h-60">
+          <table class="w-full text-left text-[11px]">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 uppercase tracking-wider sticky top-0">
+              <tr>
+                <th class="py-2 px-3">Timestamp</th>
+                <th class="py-2 px-3">Action</th>
+                <th class="py-2 px-3">Actor</th>
+                <th class="py-2 px-3">Details</th>
+              </tr>
+            </thead>
+            <tbody id="audit-logs-tbody" class="divide-y divide-slate-100 font-mono">
+              <tr>
+                <td colspan="4" class="text-center py-4 text-slate-400">Loading audit trail...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= CREATE CAMPAIGN MODAL ================= -->
+  <div id="create-campaign-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full p-6 border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="text-base font-bold text-slate-900">Create New Outreach Campaign</h3>
+        <button id="btn-close-campaign-modal" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Campaign Name</label>
+          <input type="text" id="campaign-name-input" value="Doctor Outreach - Surat Clinics - Wave 1"
+                 class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Batch Size (Messages/Batch)</label>
+            <input type="number" id="campaign-batch-input" value="1" min="1" max="10"
+                   class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs">
+            <p class="text-[10px] text-slate-400 mt-0.5">Conservative default: 1 message</p>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Delay Between Messages (Seconds)</label>
+            <input type="number" id="campaign-delay-input" value="10" min="5" max="60"
+                   class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs">
+            <p class="text-[10px] text-slate-400 mt-0.5">Recommended: 10s - 30s</p>
+          </div>
+        </div>
+
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-900 space-y-1">
+          <p class="font-bold flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+            <span>Campaign Safety Pre-Flight</span>
+          </p>
+          <p>
+            Eligible recipients: <strong id="modal-eligible-count" class="text-amber-950 font-bold">0</strong> active clinics (opted-out contacts will be automatically omitted).
+          </p>
+          <p class="text-[11px] text-amber-700">
+            A test message verification is required before messages can be dispatched to clinic contacts.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-3 border-t border-slate-100">
+        <button id="btn-cancel-campaign-modal" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition">
+          Cancel
+        </button>
+        <button id="btn-submit-campaign-create" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg shadow-sm transition">
+          Create & Setup Test
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= IMPORT PREVIEW MODAL ================= -->
+  <div id="import-preview-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full p-6 border border-slate-100 space-y-4 max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Contact Import Preview & Validation</h3>
+          <p class="text-xs text-slate-500">Review contacts, normalized numbers, duplicates, and opt-outs before importing</p>
+        </div>
+        <button id="btn-close-import-modal" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Import Stats Pill -->
+      <div class="grid grid-cols-4 gap-3 text-center text-xs">
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+          <p class="text-slate-500 font-semibold">Total Rows</p>
+          <p id="preview-total-rows" class="text-base font-extrabold text-slate-800">0</p>
+        </div>
+        <div class="bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
+          <p class="text-emerald-700 font-semibold">Valid Contacts</p>
+          <p id="preview-valid-rows" class="text-base font-extrabold text-emerald-800">0</p>
+        </div>
+        <div class="bg-red-50 p-2.5 rounded-xl border border-red-200">
+          <p class="text-red-700 font-semibold">Invalid Numbers</p>
+          <p id="preview-invalid-rows" class="text-base font-extrabold text-red-800">0</p>
+        </div>
+        <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200">
+          <p class="text-purple-700 font-semibold">Duplicates / Opt-Outs</p>
+          <p id="preview-duplicate-rows" class="text-base font-extrabold text-purple-800">0</p>
+        </div>
+      </div>
+
+      <!-- Preview Table -->
+      <div class="overflow-y-auto flex-1 border border-slate-200 rounded-xl">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200 sticky top-0 uppercase tracking-wider">
+            <tr>
+              <th class="py-2.5 px-3">#</th>
+              <th class="py-2.5 px-3">Clinic Name</th>
+              <th class="py-2.5 px-3">Uploaded Phone</th>
+              <th class="py-2.5 px-3">Normalized Phone</th>
+              <th class="py-2.5 px-3">Validation Result</th>
+              <th class="py-2.5 px-3 text-right">Exclude</th>
+            </tr>
+          </thead>
+          <tbody id="preview-table-tbody" class="divide-y divide-slate-100">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+        <p class="text-xs text-slate-500">Only verified valid contacts will be saved to the database.</p>
+        <div class="flex gap-2">
+          <button id="btn-cancel-import" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition">
+            Cancel
+          </button>
+          <button id="btn-confirm-import-save" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg shadow-sm transition">
+            Confirm & Save Contacts
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= WAHA CONNECTION & QR MODAL ================= -->
+  <div id="waha-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+            <i data-lucide="radio" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">WAHA WhatsApp Gateway</h3>
+            <p class="text-[11px] text-slate-500">Connection & Pairing Settings</p>
+          </div>
+        </div>
+        <button id="btn-close-waha-modal" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Live Status Banner in Modal -->
+      <div id="waha-modal-status-box" class="p-3 rounded-xl border text-xs">
+        <p class="font-bold flex items-center gap-1.5" id="waha-modal-status-title">Status: Checking...</p>
+        <p class="text-[11px] mt-0.5 text-slate-600" id="waha-modal-status-desc"></p>
+      </div>
+
+      <!-- QR Code Container (shown when SCAN_QR_CODE) -->
+      <div id="waha-qr-section" class="hidden flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+        <p class="text-xs font-bold text-slate-800 text-center">Scan with WhatsApp on Clinic Phone</p>
+        <div class="p-3 bg-white rounded-xl shadow-md border border-slate-200">
+          <img id="waha-qr-image" src="" alt="WhatsApp QR Code" class="w-56 h-56 object-contain">
+        </div>
+        <ol class="text-[11px] text-slate-500 space-y-1 list-decimal list-inside text-left">
+          <li>Open WhatsApp on clinic mobile phone</li>
+          <li>Tap <strong>Settings > Linked Devices</strong></li>
+          <li>Tap <strong>Link a Device</strong> and point camera here</li>
+        </ol>
+      </div>
+
+      <!-- Key Config Section (shown if AUTH_FAILED or manual change) -->
+      <div id="waha-key-section" class="space-y-3 pt-2">
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-600 mb-1">WAHA API Key</label>
+          <div class="flex gap-2">
+            <input type="text" id="waha-api-key-input" placeholder="Paste WAHA API Key here"
+                   class="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-mono">
+            <button id="btn-save-waha-key" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold">
+              Save
+            </button>
+          </div>
+        </div>
+        <button id="btn-autodetect-waha-key" class="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs rounded-lg border border-indigo-200 transition flex items-center justify-center gap-1.5">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Auto-Detect Active WAHA Key</span>
+        </button>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button id="btn-refresh-waha-status" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-lg transition flex items-center gap-1.5">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh Connection</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
+

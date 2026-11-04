@@ -1,4 +1,7 @@
 services:
+  # -------------------------------------------------------------
+  # 1. Existing Clinic Demo Backend
+  # -------------------------------------------------------------
   - type: web
     name: xyz-dental-backend
     runtime: node
@@ -6,6 +9,7 @@ services:
     rootDir: demos/him/server
     buildCommand: npm install
     startCommand: node index.js
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,9 +18,79 @@ services:
       - key: WAHA_ENABLED
         value: "true"
       - key: WAHA_BASE_URL
-        sync: false
+        value: http://waha-whatsapp-service:3000
       - key: WAHA_API_KEY
-        sync: false
+        value: 50100d00397b43cdb9f8a61599cd2f94
       - key: WAHA_SESSION
         value: default
 
+  # -------------------------------------------------------------
+  # 2. WAHA (WhatsApp HTTP API) 24/7 Cloud Engine
+  # -------------------------------------------------------------
+  - type: web
+    name: waha-whatsapp-service
+    env: image
+    image:
+      url: devlikeapro/waha:latest
+    plan: starter # Starter plan recommended for Chromium Puppeteer stability and Persistent Disk
+    region: singapore
+    healthCheckPath: /api/server/version
+    disk:
+      name: waha-sessions
+      mountPath: /app/.sessions
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: "3000"
+      - key: WAHA_API_KEY
+        value: 50100d00397b43cdb9f8a61599cd2f94
+      - key: WAHA_DASHBOARD_ENABLED
+        value: "true"
+      - key: WAHA_DASHBOARD_USERNAME
+        value: admin
+      - key: WAHA_DASHBOARD_PASSWORD
+        value: DoctorXYZ@2026
+      - key: WAHA_PRINT_QR
+        value: "true"
+      - key: WHATSAPP_DEFAULT_ENGINE
+        value: WEBJS
+
+  # -------------------------------------------------------------
+  # 3. Standalone Clinic WhatsApp Outreach Campaign Application
+  # -------------------------------------------------------------
+  - type: web
+    name: clinic-outreach-campaign
+    runtime: node
+    plan: starter # Starter plan for SQLite database persistence
+    region: singapore
+    rootDir: clinic-outreach-campaign
+    buildCommand: npm install
+    startCommand: node backend/server.js
+    healthCheckPath: /api/health
+    disk:
+      name: outreach-db
+      mountPath: /var/data/outreach
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: APP_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/outreach/campaigns.db
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        value: AdminOutreach@2026
+      - key: WAHA_BASE_URL
+        value: http://waha-whatsapp-service:3000
+      - key: WAHA_API_KEY
+        value: 50100d00397b43cdb9f8a61599cd2f94
+      - key: WAHA_SESSION
+        value: default
+      - key: WAHA_ENABLED
+        value: "true"
+      - key: DEFAULT_BATCH_SIZE
+        value: "1"
+      - key: DEFAULT_DELAY_SECONDS
+        value: "10"

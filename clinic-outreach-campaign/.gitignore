@@ -1,0 +1,23 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.local
+
+# Databases
+database/*.db
+database/*.db-journal
+
+# Temporary uploads and logs
+uploads/temp_*
+logs/*.log
+
+# Operating system
+.DS_Store
+Thumbs.db
+

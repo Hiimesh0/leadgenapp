@@ -452,8 +452,24 @@ app.patch('/api/enquiries/:id/status', authenticateToken, (req, res) => {
   }
 });
 
+// Health check endpoint for Render monitoring and uptime probes
+app.get('/api/health', async (req, res) => {
+  res.json({
+    status: 'healthy',
+    service: 'xyz-dental-backend',
+    version: '1.0.0',
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+    waha: {
+      enabled: wahaService.enabled,
+      baseUrl: wahaService.baseUrl,
+      session: wahaService.session
+    }
+  });
+});
+
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n======================================================`);
   console.log(`🦷 XYZ Dental Clinic - Doctor Admin API Server (JSON DB)`);
   console.log(`🚀 Running at: http://localhost:${PORT}`);
