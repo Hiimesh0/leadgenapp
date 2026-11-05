@@ -10,3 +10,4 @@ Thumbs.db
 .env.local
 clinic-outreach-campaign/database/*.db
 clinic-outreach-campaign/uploads/temp_*
+

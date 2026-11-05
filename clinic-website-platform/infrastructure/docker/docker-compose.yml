@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  waha:
+    build:
+      context: ./waha
+      dockerfile: Dockerfile
+    image: devlikeapro/waha:latest
+    container_name: waha_clinic_gateway
+    restart: unless-stopped
+    ports:
+      - "3008:3000"
+    environment:
+      - PORT=3000
+      - WAHA_API_KEY=50100d00397b43cdb9f8a61599cd2f94
+      - WAHA_DASHBOARD_ENABLED=true
+      - WAHA_DASHBOARD_USERNAME=admin
+      - WAHA_DASHBOARD_PASSWORD=DoctorXYZ@2026
+      - WAHA_PRINT_QR=true
+      - WHATSAPP_DEFAULT_ENGINE=WEBJS
+      - WAHA_LOG_LEVEL=info
+      - WAHA_ZIP_LOGS=false
+    volumes:
+      - waha_sessions:/app/.sessions
+
+volumes:
+  waha_sessions:
+    driver: local

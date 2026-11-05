@@ -1,0 +1,49 @@
+{
+  "client_id": "clinic-template-001",
+  "clinic_name": "Apex Dental & Healthcare Clinic",
+  "tagline": "Modern, Gentle & Comprehensive Family Healthcare",
+  "slug": "apex-dental",
+  "plan_tier": "PROFESSIONAL",
+  "primary_color": "#0f766e",
+  "secondary_color": "#1e3a8a",
+  "contact": {
+    "phone": "+91 99740 12606",
+    "whatsapp": "+91 99740 12606",
+    "email": "contact@apexdental.com",
+    "address": "Shop 104, Medical Arcade, Ring Road, Surat, Gujarat 395007",
+    "google_maps_embed_url": "https://www.google.com/maps/embed?pb=..."
+  },
+  "working_hours": [
+    { "days": "Monday - Friday", "hours": "09:00 AM - 08:00 PM" },
+    { "days": "Saturday", "hours": "09:00 AM - 06:00 PM" },
+    { "days": "Sunday", "hours": "Emergency Appointments Only" }
+  ],
+  "doctors": [
+    {
+      "id": "doc-01",
+      "name": "Dr. Aarav Patel",
+      "credentials": "BDS, MDS (Prosthodontics)",
+      "experience_years": 12,
+      "bio": "Specialist in dental implants, full-mouth rehabilitation, and digital smile design."
+    }
+  ],
+  "services": [
+    {
+      "id": "dental-implants",
+      "title": "Precision Dental Implants",
+      "description": "Permanent tooth replacements with 3D digital planning and painless placement."
+    },
+    {
+      "id": "smile-makeover",
+      "title": "Cosmetic Smile Makeover",
+      "description": "Porcelain veneers, clear aligners, and laser teeth whitening."
+    }
+  ],
+  "automation": {
+    "waha_enabled": true,
+    "image_update_mode": "APPROVAL_REQUIRED",
+    "authorized_senders": [
+      "+919974012606"
+    ]
+  }
+}
