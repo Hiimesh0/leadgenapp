@@ -13,3 +13,4 @@ EXPOSE 3000
 
 # Volume mount point for persistent session tokens
 VOLUME ["/app/.sessions"]
+

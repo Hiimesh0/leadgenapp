@@ -57,3 +57,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** `DESIGN_SYSTEM.md` created with color swatches, typography rules, component guidelines, and valid Tailwind theme extension.
 - **Error Handling:** If client branding colors provide poor contrast (e.g. light yellow on white), provide an accessible, harmonized tint variant while preserving brand identity.
+

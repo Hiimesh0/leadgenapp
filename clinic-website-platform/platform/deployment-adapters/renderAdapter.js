@@ -44,3 +44,4 @@ export class RenderDeploymentAdapter extends CloudDeploymentAdapter {
     return res.json();
   }
 }
+

@@ -67,3 +67,4 @@ The Premium Plan Agent coordinates:
 - [ ] Database backups and migrations verified.
 - [ ] WAHA session health probe responds with `status: WORKING`.
 - [ ] Live end-to-end test run successfully on real device.
+

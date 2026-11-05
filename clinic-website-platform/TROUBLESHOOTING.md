@@ -40,3 +40,4 @@ flowchart TD
 ### Error 4: GitHub Pages 404 on Vite Assets
 - **Root Cause:** Jekyll processing ignores directories or files starting with underscores or specific names.
 - **Resolution:** Verify `.nojekyll` file exists in the repository root.
+

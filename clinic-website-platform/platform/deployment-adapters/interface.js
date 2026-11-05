@@ -24,3 +24,4 @@ export class CloudDeploymentAdapter {
     throw new Error(`triggerRollback not implemented on adapter: ${this.name}`);
   }
 }
+

@@ -41,3 +41,4 @@ find "$BACKUP_DIR" -type f -name "*.db.gz" -mtime +14 -delete
    ```
 4. Restart application services: `docker compose up -d`.
 5. Run health check probe to confirm database integrity.
+

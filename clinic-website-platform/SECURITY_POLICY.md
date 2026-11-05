@@ -34,3 +34,4 @@
 - Maximum upload size: 15 MB.
 - Allowed MIME types: `image/jpeg`, `image/png`, `image/webp`.
 - All incoming images must be stripped of EXIF metadata (camera serials, GPS location tags) before storage.
+

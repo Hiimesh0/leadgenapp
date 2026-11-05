@@ -51,3 +51,4 @@ Monthly Targets (Cumulative Clinics Onboarded):
   - Initial Phase: Render Free Tier + GitHub Pages CDN (**₹0/month infrastructure cost**).
   - Scaled Phase (100+ Clinics): Dedicated Hetzner/DigitalOcean VPS running multiple WAHA containers with Docker Swarm (~₹5,000/month serving 100+ clinics).
 - **Automation Leverage:** Multi-agent autonomous setup reduces manual developer hours from 20 hours to **under 45 minutes per clinic**, yielding unprecedented gross margins.
+

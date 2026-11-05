@@ -58,3 +58,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Structured data passes validator; OpenGraph image and title verified; sitemap generated; all images have descriptive `alt` tags.
 - **Error Handling:** If clinic has incomplete address or missing pincode, generate high-priority warning flag in SEO audit.
+

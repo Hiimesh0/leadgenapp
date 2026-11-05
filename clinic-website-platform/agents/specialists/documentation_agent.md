@@ -61,3 +61,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** All required documentation files exist; zero broken relative links; all Mermaid blocks render cleanly.
 - **Error Handling:** If an undocumented API endpoint or database table is detected in the codebase, immediately flag it and generate a draft documentation section.
+

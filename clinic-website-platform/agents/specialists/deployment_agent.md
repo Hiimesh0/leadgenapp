@@ -61,3 +61,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Deployment finishes successfully; live HTTPS URL verified responding HTTP 200; release documented in `CHANGELOG.md`.
 - **Error Handling:** If cloud build fails, capture full build logs, identify the failing step (e.g. missing package or syntax error), rollback to the previous commit hash, and alert human owner.
+

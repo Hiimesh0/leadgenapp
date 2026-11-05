@@ -131,3 +131,4 @@ flowchart TD
    docker compose -f infrastructure/docker/docker-compose.yml up -d
    ```
 4. Access the local WAHA dashboard at `http://localhost:3008/dashboard` (`admin` / `DoctorXYZ@2026`).
+

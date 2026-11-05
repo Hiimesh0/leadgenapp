@@ -62,3 +62,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Input image converted to WebP; EXIF stripped; responsive resolutions generated; SHA-256 hash saved.
 - **Error Handling:** If image is corrupted or unsupported, reject with specific error ("Unsupported file format. Please send a standard JPEG or PNG photo") and trigger WhatsApp notification to sender.
+

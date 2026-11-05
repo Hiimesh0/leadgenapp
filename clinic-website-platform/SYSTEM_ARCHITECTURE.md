@@ -101,3 +101,4 @@ export class CloudDeploymentAdapter {
    - In-process or background queue executing image parsing, slot updates, and notification dispatches.
 4. **`services/content-service/`**:
    - Sharp-based image optimization pipeline generating WebP images and stripping EXIF tags.
+

@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 .pnpm-store/
+.busns_repo/
 
 # Logs & temp
 *.log

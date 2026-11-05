@@ -62,3 +62,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Schema script runs without syntax errors; indexes created on foreign keys and lookup tokens; seed script populates default admin records cleanly.
 - **Error Handling:** If database file is locked or connection drops, implement safe retry logic with exponential backoff and write failure diagnostic to error logs.
+

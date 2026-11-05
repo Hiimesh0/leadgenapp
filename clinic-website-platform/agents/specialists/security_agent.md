@@ -57,3 +57,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Zero hardcoded secrets detected in repository; dependencies scanned with zero high-severity CVEs; tenant isolation verified; security policy signed off.
 - **Error Handling:** If an exposed secret is detected in git history, trigger immediate key rotation protocol, revoke the exposed key, and record in `SECURITY_INCIDENT_LOG.md`.
+

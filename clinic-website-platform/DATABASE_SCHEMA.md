@@ -141,3 +141,4 @@ CREATE INDEX IF NOT EXISTS idx_appointments_client ON appointments(client_id);
 CREATE INDEX IF NOT EXISTS idx_appointments_date ON appointments(preferred_date);
 CREATE INDEX IF NOT EXISTS idx_auth_numbers_client ON authorized_whatsapp_numbers(client_id);
 ```
+

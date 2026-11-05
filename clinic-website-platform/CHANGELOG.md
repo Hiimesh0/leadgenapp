@@ -16,3 +16,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Autonomous Image Pipeline:** Formulated WhatsApp image-to-website update workflow with 4 safety automation modes.
 - **Comprehensive Documentation Suite:** Formulated Business Plan, Pricing Matrix, Architecture, API specs, Database Schema, and Recovery guides.
 - **100% Free-Tier Cloud Blueprint:** Prepared `render.yaml` with ₹0/month budget compliance.
+

@@ -62,3 +62,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Update job successfully queued, verified by human approval (if required), asset versioned, deployment verified live, and confirmation sent to clinic WhatsApp.
 - **Error Handling:** If deployment fails or site health check fails post-update, automatically execute instant rollback to previous asset and notify both human owner and client.
+

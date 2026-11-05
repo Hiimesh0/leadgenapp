@@ -48,3 +48,4 @@ Because the platform utilizes modular deployment adapters in `platform/deploymen
    ```
 5. **Configure DNS:** Update clinic domain A records to point to your VPS public IPv4 address.
 6. **Scan WhatsApp QR Code:** Access `https://waha.yourdomain.com/dashboard` and link the clinic phone once.
+

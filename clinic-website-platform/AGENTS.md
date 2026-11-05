@@ -110,3 +110,4 @@ If an agent encounters any of the following, it must immediately pause and escal
 - Payment, billing, or domain registration decisions.
 - Irreversible destructive database operations (`DROP TABLE`, database reset).
 - Rate-limiting or temporary ban warnings from WhatsApp servers.
+

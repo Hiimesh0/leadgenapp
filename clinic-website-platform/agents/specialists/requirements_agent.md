@@ -57,3 +57,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** Validated `client.config.json` passes schema check with zero missing required fields.
 - **Error Handling:** If required fields (e.g. phone number or clinic address) are missing, generate an explicit `MISSING_REQUIREMENTS.md` checklist and request clarification from the human coordinator.
+

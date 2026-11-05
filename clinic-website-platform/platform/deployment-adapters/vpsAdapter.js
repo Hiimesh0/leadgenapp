@@ -19,3 +19,4 @@ export class VpsDockerAdapter extends CloudDeploymentAdapter {
     };
   }
 }
+

@@ -42,3 +42,4 @@ Clinics on lower tiers can purchase standalone modular upgrades:
 ## 3. Plan Enforcement Rules for AI Agents
 - The `starter_plan_agent` and `professional_plan_agent` MUST NEVER generate backend database schemas or WAHA webhook handlers without an explicit signed add-on approval in `client.config.json`.
 - The `requirements_agent` is required to cross-check client feature requests against this matrix during the initial interview.
+

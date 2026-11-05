@@ -56,3 +56,4 @@ The Starter Plan Agent coordinates the following specialist agents:
 - [ ] Google Maps embed loads correctly.
 - [ ] Static deployment confirmed live with HTTP 200.
 - [ ] Handover guide delivered to client.
+

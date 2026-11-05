@@ -14,3 +14,4 @@ Copy `.env.example` to `.env` and configure your permanent secret keys.
 - `WAHA_DASHBOARD_ENABLED`: `true`
 - `WAHA_DASHBOARD_USERNAME`: `admin`
 - `WAHA_DASHBOARD_PASSWORD`: Strong password for QR code pairing.
+

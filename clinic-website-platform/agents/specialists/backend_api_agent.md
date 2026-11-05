@@ -56,3 +56,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** All endpoints documented; automated unit tests pass; health endpoint responds HTTP 200.
 - **Error Handling:** If WAHA WhatsApp gateway is offline, save appointment to database with status `Notification Pending` and return HTTP 201 to patient with a graceful warning so patient bookings are never lost.
+

@@ -72,3 +72,4 @@ volumes:
   2. Log in with `admin` / `DoctorXYZ@2026`.
   3. Scan the QR code using WhatsApp on the clinic phone (**Settings > Linked Devices > Link a Device**).
   4. Status transitions to `WORKING`.
+

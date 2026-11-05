@@ -65,3 +65,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** WAHA container boots; `GET /api/server/version` returns HTTP 200; session reports `WORKING` or `SCAN_QR_CODE`; QR streaming functional.
 - **Error Handling:** If WAHA responds with `401 Unauthorized`, trigger self-healing key re-detection or notify the administrator; if `502 Bad Gateway` or timeout occurs, flag session state as `UNAVAILABLE` without crashing the parent web service.
+

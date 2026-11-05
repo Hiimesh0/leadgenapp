@@ -56,3 +56,4 @@
 ## 7. Completion Criteria & Error Handling
 - **Completion Criteria:** `npm run build` exits with code 0; zero TypeScript errors; zero broken asset paths.
 - **Error Handling:** If API request fails or network drops, display clear user-friendly guidance ("Unable to reach clinic booking server. Please click here to message directly on WhatsApp").
+
