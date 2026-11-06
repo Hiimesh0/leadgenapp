@@ -1,0 +1,121 @@
+import { PricingPackage } from '../types';
+
+export const PRICING_PACKAGES: PricingPackage[] = [
+  {
+    id: 'starter',
+    name: 'Starter Package',
+    price: '₹9,999',
+    priceNumeric: 9999,
+    targetAudience: 'For individual doctors, solo practitioners, and small local clinics.',
+    description: 'An essential, mobile-responsive web presence establishing your clinical credibility and direct patient contact channels.',
+    deliveryTime: '5 – 7 working days',
+    pageCount: 'Up to 3 pages',
+    isPopular: false,
+    revisions: '1 revision round included',
+    support: '14 days post-launch technical assistance',
+    features: [
+      'Up to 3 clean, responsive pages',
+      'Modern, mobile-first responsive design',
+      'Homepage with practice overview',
+      'About Doctor / Clinic section',
+      'Services & treatments overview list',
+      'Contact details & clinic location card',
+      'WhatsApp click-to-chat integration',
+      'Direct click-to-call buttons for mobile visitors',
+      'Google Maps embedded directions',
+      'Basic on-page SEO metadata',
+      'Deployment assistance on your chosen host/domain'
+    ]
+  },
+  {
+    id: 'professional',
+    name: 'Professional Package',
+    price: '₹19,999',
+    priceNumeric: 19999,
+    badge: 'MOST POPULAR',
+    isPopular: true,
+    targetAudience: 'For established clinics, polyclinics, and healthcare specialists.',
+    description: 'A complete, bespoke multi-page website engineered to showcase your full treatment portfolio, clinical team, and appointment intake.',
+    deliveryTime: '10 – 15 working days',
+    pageCount: 'Up to 7 pages',
+    revisions: '2 revision rounds included',
+    support: '30 days bug-fix & maintenance support',
+    features: [
+      'Up to 7 custom-designed pages',
+      'Premium custom UI/UX tailored to your brand identity',
+      'Engaging Homepage with trust pillars & highlights',
+      'Dedicated About Clinic & philosophy page',
+      'Individual Treatment & Services pages',
+      'Doctor & specialist profiles with focus areas',
+      'High-resolution Clinic Interior & Sterilization Gallery',
+      'Comprehensive Contact page with location map',
+      'Interactive Appointment Consultation enquiry workflow',
+      'WhatsApp integration with prefilled appointment parameters',
+      'Google Maps integration with accessibility directions',
+      'Basic on-page SEO & OpenGraph social cards',
+      'Social media profile linkages',
+      'Performance optimization for rapid mobile loading',
+      'Fully responsive across smartphones, tablets & desktop',
+      '30 days of post-launch bug-fix support'
+    ]
+  },
+  {
+    id: 'premium',
+    name: 'Premium Package',
+    price: '₹29,999+',
+    priceNumeric: 29999,
+    badge: 'ADVANCED SUITE',
+    isPopular: false,
+    targetAudience: 'For advanced surgical centers, high-volume clinics, and aesthetic practices.',
+    description: 'An expansive digital portal featuring deep treatment breakdowns, patient educational content, and enhanced search discoverability.',
+    deliveryTime: '15 – 25 working days',
+    pageCount: 'Up to 12 pages',
+    revisions: '3 revision rounds included',
+    support: '60 days bug-fix & technical support',
+    features: [
+      'Up to 12 custom premium pages',
+      'Custom premium design tailored for discerning patients',
+      'Multiple doctor & specialist team profiles',
+      'Individual in-depth procedure & condition guides',
+      'Advanced multi-step appointment intake workflow',
+      'Patient Blog or Educational Articles section',
+      'Advanced on-page SEO & structured schema data',
+      'Local SEO setup assistance for city Google rankings',
+      'Google Analytics 4 setup & tracking integration',
+      'Google Search Console setup & sitemap submission assistance',
+      'Enhanced Core Web Vitals performance tuning',
+      'Comprehensive image compression and asset caching setup',
+      '3 complete revision rounds',
+      '60 days of bug-fix and technical support'
+    ]
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise Package',
+    price: 'Custom Quote',
+    priceNumeric: 0,
+    badge: 'BESPOKE ARCHITECTURE',
+    isPopular: false,
+    targetAudience: 'For hospitals, multi-branch clinic chains, and larger healthcare organizations.',
+    description: 'Tailored enterprise architecture supporting multi-department directories, multi-location branches, and custom operational tools.',
+    deliveryTime: 'Custom timeline (typically 3 – 6 weeks)',
+    pageCount: 'Unlimited / Custom scope',
+    revisions: 'Milestone-based collaborative review',
+    support: 'Ongoing priority service contract available',
+    features: [
+      'Custom website architecture tailored to organizational hierarchy',
+      'Multiple departments & comprehensive clinical faculty directories',
+      'Multi-branch practice location selectors & individual branch pages',
+      'Dynamic content management capabilities',
+      'Advanced patient intake, triage & booking workflows',
+      'Payment gateway integrations for booking deposits (if required)',
+      'Custom admin dashboards & lead review interfaces',
+      'Custom API integrations & automated webhook triggers',
+      'WhatsApp autonomous notification and messaging hooks',
+      'Ongoing maintenance, monitoring, and security SLA options',
+      'Dedicated technical onboarding and staff guidance'
+    ]
+  }
+];
+
+export const PRICING_DISCLAIMER = `All prices are indicative starting prices. Final pricing depends on the project scope, features, content requirements and integrations. Domain, hosting, third-party services and recurring subscriptions are charged separately unless explicitly included in the proposal.`;
